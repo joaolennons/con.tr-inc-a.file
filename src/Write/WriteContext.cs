@@ -26,5 +26,6 @@ namespace Write
         }
 
         public DbSet<Barbecue> Barbecues { get; set; }
+        public DbSet<Presence> Presence { get; set; }
     }
 }

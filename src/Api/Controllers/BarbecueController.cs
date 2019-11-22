@@ -54,5 +54,18 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Read.Dtos.BarbecueDto>>> GetBy(Guid id)
+        {
+            try
+            {
+                return Ok(await _read.GetBy(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

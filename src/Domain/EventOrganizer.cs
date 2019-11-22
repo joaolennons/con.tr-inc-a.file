@@ -1,4 +1,5 @@
-﻿using static Domain.NoReasonBarbecue;
+﻿using static Domain.CancelPresenceOnBarbecue;
+using static Domain.NoReasonBarbecue;
 using static Domain.PresenceOnBarbecue;
 
 namespace Domain
@@ -7,5 +8,6 @@ namespace Domain
     {
         public static BarbecueBuilder ScheduleNewBarbecue => new BarbecueBuilder();
         public static PresenceBuilder ConfirmPresence => new PresenceBuilder();
+        public static CancelPresenceBuilder CancelPresence => new CancelPresenceBuilder();
     }
 }

@@ -13,5 +13,18 @@ namespace Write.Pocos
         public Barbecue Barbecue { get; set; }
         public Guid ParticipantId { get; set; }
         public Participant Participant { get; set; }
+
+        public Presence()
+        {
+
+        }
+
+        public Presence(decimal value, Guid barbecueId, Guid participantId)
+        {
+            Id = Guid.NewGuid();
+            Value = value;
+            BarbecueId = barbecueId;
+            ParticipantId = participantId;
+        }
     }
 }

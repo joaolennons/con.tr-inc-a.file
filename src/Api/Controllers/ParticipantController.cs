@@ -37,5 +37,25 @@ namespace Api.Controllers
             }
 
         }
+
+        [HttpDelete]
+        public async Task<ActionResult<Presence>> Cancel(Guid id, [FromBody] PresenceCancelation presence)
+        {
+            try
+            {
+                await _dispatcher.Send(
+                    EventOrganizer
+                        .CancelPresence
+                        .Of(presence.ParticipantId)
+                        .On(id)
+                        .Please());
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
