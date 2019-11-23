@@ -8,5 +8,7 @@ namespace Read.Dtos
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public string Observation { get; set; }
+        public int TotalParticipants { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

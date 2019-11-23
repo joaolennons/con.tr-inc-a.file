@@ -29,11 +29,13 @@ namespace Domain
                 return this;
             }
 
-            public PresenceOnBarbecue Paying(Drinking optingTo)
+            public PresenceBuilder PayingBy(Drinking optingTo)
             {
                 _presence.Value = optingTo == Drinking.Yes ? DrinkingOptionValue.Instance.Drinking : DrinkingOptionValue.Instance.NotDrinking;
-                return _presence;
+                return this;
             }
+
+            public PresenceOnBarbecue Please() => _presence;
         }        
     }
 }

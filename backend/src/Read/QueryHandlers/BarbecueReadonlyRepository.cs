@@ -30,9 +30,16 @@ namespace Read
             using (SqlConnection conexao = new SqlConnection(_connectionString))
                 result = await conexao.QueryAsync<BarbecueDetail>(Queries.Barbecues.GetBy(id));
 
+            if (!result.Any())
+                return null;
+
             return new BarbecueInfo
             {
-                Participants = result.Select(projection => new BarbecueInfo.Participant(projection.Name, projection.Value))
+                Id = result.First().Id,
+                Description = result.First().Description,
+                Date = result.First().Date,
+                Participants = result.Where(o => o.ParticipantId != Guid.Empty)
+                .Select(projection => new BarbecueInfo.Participant(projection.Name, projection.Value))
             };
         }
     }

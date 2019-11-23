@@ -27,7 +27,8 @@ namespace Api.Controllers
                         .ConfirmPresence
                         .Of(presence.ParticipantId)
                         .On(id)
-                        .Paying(presence.Drinking ? Drinking.Yes : Drinking.No));
+                        .PayingBy(presence.Drinking ? Drinking.Yes : Drinking.No)
+                        .Please());
 
                 return Ok(presence);
             }

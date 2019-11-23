@@ -30,6 +30,16 @@ namespace Api
              {
                  c.SwaggerDoc("v1", new Info { Title = "Contr(inc)afilé", Version = "v1" });
              });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocal",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                });
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -51,8 +61,9 @@ namespace Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+            app.UseCors("AllowLocal");
             app.UseResponseCompression();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

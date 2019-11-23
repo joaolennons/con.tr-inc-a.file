@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <div class="new-barbecue-card" (click)="goToNewBbq()">
+    Adicionar churras
+  </div>
+  <div *ngFor="let event of events" class="card">
+    <h3>{{event.date | date: 'dd/MM'}}</h3>
+    <h4>{{event.description}}</h4>
+    <span class="card-footer">
+      <p>{{event.totalParticipants}}</p>
+      <p>{{event.totalAmount}}</p>
+    </span>
+  </div>
+</div>

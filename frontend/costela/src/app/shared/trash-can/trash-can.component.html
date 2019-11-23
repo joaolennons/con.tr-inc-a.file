@@ -1,0 +1,3 @@
+<img *ngIf="!hover" (mouseenter)="mouseIn()" src="../../../assets/trash-disabled.png" width="16px" />
+<img *ngIf="hover" src="../../../assets/trash.png" (mouseleave)="mouseOut()" width="16px"
+  (click)="emitDelete($event)" />

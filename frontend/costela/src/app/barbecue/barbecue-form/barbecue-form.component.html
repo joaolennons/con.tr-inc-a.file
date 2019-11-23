@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="main-card">
+    <app-barbecue-header [barbecue]="barbecue"></app-barbecue-header>
+    <form [formGroup]="barbecueForm">
+      <div formArrayName="participants">
+        <div class="hints">
+          <small style="margin-right: 10px">use a lixeira para quem não vai mais ):</small>
+        </div>
+        <div *ngFor="let item of participants.controls; let participantIndex=index" [formGroupName]="participantIndex">
+          <app-participant formControlName="participant" [data]="filterData()" (add)="addParticipant($event)"
+            (remove)="removeParticipant(participantIndex)">
+          </app-participant>
+        </div>
+      </div>
+      <button (click)="whosgoing()" value="teaa"></button>
+    </form>
+    <span class="autosave">Seu churras foi salvo pela útlima vez em {{savedAt | date: 'dd/mm/yyyy \'às\' HH:mm'}}</span>
+  </div>
+</div>
