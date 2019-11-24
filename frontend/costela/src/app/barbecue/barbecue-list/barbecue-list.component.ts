@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BarbecueService } from '../barbecue.service';
+import { Barbecue } from '../models/barbecue.model';
 
 @Component({
   selector: 'app-barbecue-list',
@@ -9,7 +10,7 @@ import { BarbecueService } from '../barbecue.service';
 })
 export class BarbecueListComponent implements OnInit {
 
-  public events: Array<any>;
+  public events: Array<Barbecue>;
   constructor(public router: Router, private _service: BarbecueService) { }
 
   ngOnInit() {

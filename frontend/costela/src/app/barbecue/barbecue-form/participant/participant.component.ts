@@ -19,6 +19,7 @@ export class ParticipantComponent implements ControlValueAccessor {
   private disabled: boolean;
   private onChange: Function;
   private onTouched: Function;
+  @Input() readonly: boolean;
 
   constructor(private cd: ChangeDetectorRef) {
     this.onChange = (_: any) => { };

@@ -14,6 +14,7 @@ import { ParticipantComponent } from './barbecue/barbecue-form/participant/parti
 import { DrinkingOptionComponent } from './barbecue/barbecue-form/participant/drinking-option/drinking-option.component';
 import { TrashCanComponent } from './shared/trash-can/trash-can.component';
 import { BarbecueHeaderComponent } from './barbecue/barbecue-form/barbecue-header/barbecue-header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -33,11 +34,11 @@ import { BarbecueHeaderComponent } from './barbecue/barbecue-form/barbecue-heade
     HttpClientModule,
     AutocompleteLibModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
 }

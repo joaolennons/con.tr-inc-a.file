@@ -21,10 +21,6 @@ export class AutoCompleteComponent implements OnInit {
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-    this.focus();
-  }
-
   public focus() {
     this.autocompleteChild.focus();
   }

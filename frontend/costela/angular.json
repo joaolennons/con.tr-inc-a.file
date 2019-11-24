@@ -24,17 +24,13 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "mdi.svg",
-                "input": "node_modules/@mdi/angular-material",
-                "output": "./assets"
-              }
+              "src/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/pretty-checkbox/src/pretty-checkbox.scss",
-              "src/styles.less"
+              "src/styles.less",
+              "node_modules/raleway-webfont/raleway.min.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

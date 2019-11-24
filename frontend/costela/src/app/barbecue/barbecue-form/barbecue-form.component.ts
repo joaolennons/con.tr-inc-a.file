@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Barbecue } from '../models/barbecue.model';
+import { BarbecueService } from '../barbecue.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-barbecue-form',
@@ -14,24 +16,33 @@ export class BarbecueFormComponent implements OnInit {
     value: '1'
   }, { name: 'Roberta', value: '2' }];
 
-  barbecue: Barbecue = {
-    date: new Date(),
-    description: 'Contratação do João',
-    totalAmount: 280,
-    totalParticipants: 15
-  };
+  barbecue: Barbecue = new Barbecue();
 
   public savedAt = new Date();
   public barbecueForm: FormGroup;
   public _participants: Array<any> = [];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private service: BarbecueService, private fb: FormBuilder, private activatedRoute: ActivatedRoute) { }
 
   public ngOnInit() {
+    const id = this.activatedRoute.snapshot.params.id;
+
     this.barbecueForm = this.fb.group({
       title: [],
       participants: this.fb.array([this.fb.group({ participant: '' })])
     })
+  }
+
+  public editBarbecue(barbecue: Barbecue) {
+    if (!this.barbecue.id) {
+      this.service.post(this.barbecue).subscribe(bbq => {
+        this.barbecue = bbq;
+      }, error => console.error(error));
+    } else {
+      this.service.put(barbecue).subscribe(bbq => {
+        this.barbecue = bbq;
+      }, error => console.error(error));
+    }
   }
 
   get participants() {
@@ -48,11 +59,13 @@ export class BarbecueFormComponent implements OnInit {
   }
 
   public removeParticipant(index) {
-    this._remove(index);
-    this.participants.removeAt(index);
-    if (this._participants.length === 0) {
-      this._clearFormArray(this.participants);
-      this.participants.push(this.fb.group({ participant: '' }));
+    if (this.exists(index)) {
+      this._remove(index);
+      this.participants.removeAt(index);
+      if (this._participants.length === 0) {
+        this._clearFormArray(this.participants);
+        this.participants.push(this.fb.group({ participant: '' }));
+      }
     }
   }
 
@@ -68,6 +81,10 @@ export class BarbecueFormComponent implements OnInit {
     while (formArray.length !== 0) {
       formArray.removeAt(0)
     }
+  }
+
+  public exists(index) {
+    return this._participants[index];
   }
 
   whosgoing() {

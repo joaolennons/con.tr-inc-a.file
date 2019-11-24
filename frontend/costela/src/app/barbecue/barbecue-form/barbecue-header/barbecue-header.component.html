@@ -1,10 +1,22 @@
 <div class="wrapper">
-  <div class="row">
-    <h3>{{barbecue.date | date: 'dd/MM'}}</h3>
-    <p>{{barbecue.totalParticipants}}</p>
+  <div class="header-column">
+    <h3 *ngIf="barbecue.date">{{barbecue.date | date: 'dd/MM'}}</h3>
+    <h3 *ngIf="!barbecue.date">
+      <input type="date" placeholder="Quando?" [(ngModel)]="date" (blur)="setDate()">
+    </h3>
+    <h1 *ngIf="barbecue.description">{{barbecue.description}}</h1>
+    <h1 *ngIf="!barbecue.description"><input type="text" placeholder="A troco de quê?" (blur)="setDescription()"
+        [(ngModel)]="description" />
+    </h1>
   </div>
-  <div class="row">
-    <h1>{{barbecue.description}}</h1>
-    <p>{{barbecue.totalAmount | currency: 'BRL'}}</p>
+  <div class="header-column">
+    <p class="inline">
+      <i class="icon people"></i>
+      {{barbecue.totalParticipants || 0}}
+    </p>
+    <p class="inline">
+      <i class="icon money"></i>
+      {{barbecue.totalAmount || 0 | currency: 'BRL'}}
+    </p>
   </div>
 </div>

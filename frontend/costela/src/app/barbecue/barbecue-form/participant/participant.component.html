@@ -1,5 +1,8 @@
-<app-checkbox on="pago" off="não pago"></app-checkbox>
+<app-checkbox *ngIf="!readonly" on="pago" off="não pago"></app-checkbox>
+<span *ngIf="readonly" style="width:10%">-</span>
 <app-auto-complete (add)="emitAdd($event)" [data]="data" placeholder="Diga quem vem no churras :)">
 </app-auto-complete>
-<app-drinking-option on="20" off="10"></app-drinking-option>
-<app-trash-can (delete)="emitRemove($event)"></app-trash-can>
+<app-drinking-option *ngIf="!readonly" on="20" off="10"></app-drinking-option>
+<app-trash-can *ngIf="!readonly" (delete)="emitRemove($event)"></app-trash-can>
+<span *ngIf="readonly" style="width:14%">-</span>
+<span *ngIf="readonly">-</span>
