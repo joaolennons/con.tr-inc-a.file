@@ -4,6 +4,7 @@ using Domain.Notifications;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Write;
+using Write.Repositories;
 
 namespace Domain.NotificationHandlers
 {
@@ -12,8 +13,8 @@ namespace Domain.NotificationHandlers
         INotificationHandler<PresenceCanceled>,
         INotificationHandler<PaymentUpdated>
     {
-        private readonly WriteContext _context;
-        public PresenceNotificationHandler(WriteContext context)
+        private readonly IBarbecueRepository _context;
+        public PresenceNotificationHandler(IBarbecueRepository context)
         {
             _context = context;
         }
@@ -25,7 +26,7 @@ namespace Domain.NotificationHandlers
 
         public async Task Handle(PresenceUpdated notification, CancellationToken cancellationToken)
         {
-            var bbq = await _context.Barbecues
+            var bbq = await _context.GetAll()
                    .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
@@ -36,24 +37,24 @@ namespace Domain.NotificationHandlers
             if (notification.Paid) 
                 bbq.TotalRaised = bbq.TotalRaised - notification.OldValue + notification.Value;
 
-            await _context.SaveChangesAsync();
+            await _context.Commit();
         }
 
         public async Task Handle(PaymentUpdated notification, CancellationToken cancellationToken)
         {
-            var bbq = await _context.Barbecues
+            var bbq = await _context.GetAll()
                    .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
                 return;
 
             bbq.TotalRaised += notification.Paid ? notification.Value : -notification.Value;
-            await _context.SaveChangesAsync();
+            await _context.Commit();
         }
 
         private async Task UpdateBarbecue(PresenceChanged notification, PresenceChangedType changeType, bool decreaseRaised = false)
         {
-            var bbq = await _context.Barbecues
+            var bbq = await _context.GetAll()
                     .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
@@ -65,7 +66,7 @@ namespace Domain.NotificationHandlers
             if (decreaseRaised)
                 bbq.TotalRaised -= notification.Value;
 
-            await _context.SaveChangesAsync();
+            await _context.Commit();
         }
     }
 
