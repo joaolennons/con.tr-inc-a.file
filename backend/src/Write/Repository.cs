@@ -1,7 +1,7 @@
-﻿using CrossCutting;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Write.Repositories;
 
 namespace Write
 {
