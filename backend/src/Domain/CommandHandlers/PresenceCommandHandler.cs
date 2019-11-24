@@ -32,6 +32,8 @@ namespace Domain.CommandHandlers
                .Include(o => o.Presences)
                .FirstOrDefaultAsync(o => o.Id == request.BarbecueId);
 
+            if (barbecue == null) return Unit.Value;
+
             if (!barbecue.Presences.Any(o => o.ParticipantId == request.ParticipantId))
             {
                 barbecue.UpdateDate = DateTime.Now;
