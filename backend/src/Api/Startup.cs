@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Read;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using Write;
@@ -25,7 +26,7 @@ namespace Api
             services.AddResponseCompression();
             services.AddDomainDependency(Configuration)
                 .AddReadDependencies();
-            services.AddAutoMapper(typeof(DomainToPocoProfile));
+            services.AddAutoMapper(typeof(DomainToPocoProfile), typeof(ProjectionProfile));
             services.AddSwaggerGen(c =>
              {
                  c.SwaggerDoc("v1", new Info { Title = "Contr(inc)afilé", Version = "v1" });

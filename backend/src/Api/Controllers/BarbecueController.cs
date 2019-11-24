@@ -17,7 +17,7 @@ namespace Api.Controllers
         private readonly IBarbecueReadonlyRepository _read;
         public BarbecueController(IMediator dispatcher, IBarbecueReadonlyRepository read)
         {
-            _read = read; 
+            _read = read;
             _dispatcher = dispatcher;
         }
 
@@ -42,12 +42,13 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Barbecue>> Put([FromBody] Barbecue bbq)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Barbecue>> Put(Guid id, [FromBody] Barbecue bbq)
         {
             try
             {
-                await _dispatcher.Send(
+                bbq.Id = id;
+                bbq.UpdateDate = await _dispatcher.Send(
                     EventOrganizer
                         .UpdateBarbecue(bbq.Id)
                         .Named(bbq.Description)

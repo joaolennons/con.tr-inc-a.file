@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using AutoMapper;
+using Dapper;
 using Microsoft.Extensions.Configuration;
 using Read.Dtos;
 using System;
@@ -12,9 +13,11 @@ namespace Read
     internal class BarbecueReadonlyRepository : IBarbecueReadonlyRepository
     {
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
         private string _connectionString => _configuration.GetConnectionString(Consts.READ_DB);
-        public BarbecueReadonlyRepository(IConfiguration configuration)
+        public BarbecueReadonlyRepository(IConfiguration configuration, IMapper mapper)
         {
+            _mapper = mapper;
             _configuration = configuration;
         }
 
@@ -33,14 +36,10 @@ namespace Read
             if (!result.Any())
                 return null;
 
-            return new BarbecueInfo
-            {
-                Id = result.First().Id,
-                Description = result.First().Description,
-                Date = result.First().Date,
-                Participants = result.Where(o => o.ParticipantId != Guid.Empty)
-                .Select(projection => new BarbecueInfo.Participant(projection.Name, projection.Value))
-            };
+            var participants = result.Where(o => o.ParticipantId != Guid.Empty)
+                .Select(projection => new BarbecueInfo.Participant(projection.Name, projection.Value));
+
+            return _mapper.Map<BarbecueInfo>(result.First()).AddParticipants(participants);
         }
     }
 }

@@ -13,8 +13,8 @@ export class BarbecueFormComponent implements OnInit {
 
   data = [{
     name: 'Joao',
-    value: '1'
-  }, { name: 'Roberta', value: '2' }];
+    participantId: 'a8b4dd13-25f1-45cc-af77-84e1bd92cb47'
+  }, { name: 'Roberta', participantId: '985fed44-1254-41b4-876e-e0717504bfd8' }];
 
   barbecue: Barbecue = new Barbecue();
 
@@ -54,18 +54,24 @@ export class BarbecueFormComponent implements OnInit {
   }
 
   public addParticipant(participant: any) {
-    this._add(participant);
-    this.participants.push(this.fb.group({ participant: '' }));
+    this.service.addParticipant(this.barbecue.id, participant)
+      .subscribe(() => {
+        this._add(participant);
+        this.participants.push(this.fb.group({ participant: '' }));
+      }, error => console.error(error));
   }
 
   public removeParticipant(index) {
     if (this.exists(index)) {
-      this._remove(index);
-      this.participants.removeAt(index);
-      if (this._participants.length === 0) {
-        this._clearFormArray(this.participants);
-        this.participants.push(this.fb.group({ participant: '' }));
-      }
+      this.service.removeParticipant(this.barbecue.id, this._participants[index].participantId)
+        .subscribe(() => {
+          this._remove(index);
+          this.participants.removeAt(index);
+          if (this._participants.length === 0) {
+            this._clearFormArray(this.participants);
+            this.participants.push(this.fb.group({ participant: '' }));
+          }
+        }, error => console.error(error));
     }
   }
 
@@ -76,6 +82,7 @@ export class BarbecueFormComponent implements OnInit {
   private _remove(participant: number) {
     this._participants.splice(participant, 1);
   }
+
 
   private _clearFormArray = (formArray: FormArray) => {
     while (formArray.length !== 0) {

@@ -9,7 +9,6 @@ import { AutocompleteComponent } from 'angular-ng-autocomplete';
 })
 export class AutoCompleteComponent implements OnInit {
 
-  @ViewChild('autocompleteChild') autocompleteChild: AutocompleteComponent;
   @Input() public data: Array<any>[];
   @Input() public placeholder: string;
   @Output() public add = new EventEmitter<any>();
@@ -19,10 +18,6 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  public focus() {
-    this.autocompleteChild.focus();
   }
 
   keyword = 'name';

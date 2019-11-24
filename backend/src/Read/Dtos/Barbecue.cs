@@ -10,5 +10,6 @@ namespace Read.Dtos
         public string Observation { get; set; }
         public int TotalParticipants { get; set; }
         public decimal TotalAmount { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

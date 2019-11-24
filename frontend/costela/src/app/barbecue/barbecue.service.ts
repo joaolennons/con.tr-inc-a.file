@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Barbecue } from './models/barbecue.model';
+import { Participant } from './models/participant.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -16,10 +17,18 @@ export class BarbecueService {
     }
 
     public put(barbecue: Barbecue): Observable<Barbecue> {
-        return this._http.put<Barbecue>('http://localhost:57331/trinca/api/v1/Barbecue', barbecue);
+        return this._http.put<Barbecue>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecue.id}`, barbecue);
     }
 
     public post(barbecue: Barbecue): Observable<Barbecue> {
         return this._http.post<Barbecue>('http://localhost:57331/trinca/api/v1/Barbecue', barbecue);
+    }
+
+    public addParticipant(barbecueId: string, participant: Participant) {
+        return this._http.post<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants`, participant);
+    }
+
+    public removeParticipant(barbecueId: string, participantId: string) {
+        return this._http.delete<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${participantId}`);
     }
 }

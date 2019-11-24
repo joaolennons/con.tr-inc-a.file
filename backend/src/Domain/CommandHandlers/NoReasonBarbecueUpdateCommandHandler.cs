@@ -1,31 +1,28 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Write;
-using Write.Pocos;
 
 namespace Domain.CommandHandlers
 {
-    public class NoReasonBarbecueUpdateCommandHandler : IRequestHandler<NoReasonBarbecueUpdate, Guid>
+    public class NoReasonBarbecueUpdateCommandHandler : IRequestHandler<NoReasonBarbecueUpdate, DateTime>
     {
         private readonly WriteContext _context;
-        private readonly IMapper _mapper;
-        public NoReasonBarbecueUpdateCommandHandler(WriteContext context, IMapper mapper)
+        public NoReasonBarbecueUpdateCommandHandler(WriteContext context)
         {
-            _mapper = mapper;
             _context = context;
         }
 
-        public async Task<Guid> Handle(NoReasonBarbecueUpdate request, CancellationToken cancellationToken)
+        public async Task<DateTime> Handle(NoReasonBarbecueUpdate request, CancellationToken cancellationToken)
         {
             var bbq = await _context.Barbecues.FindAsync(request.Id);
             bbq.Date = request.Date;
             bbq.Description = request.Description;
             bbq.Observation = request.Observation;
+            bbq.UpdateDate = DateTime.Now;
             await _context.SaveChangesAsync();
-            return bbq.Id;
+            return bbq.UpdateDate.Value;
         }
     }
 }

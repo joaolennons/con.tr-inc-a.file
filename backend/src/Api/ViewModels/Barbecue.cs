@@ -8,5 +8,6 @@ namespace Api.ViewModels
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public string Observation { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Write.Pocos
 {
-    public class Barbecue
+    public class Barbecue : IHasUpdatedDate
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
@@ -14,6 +14,6 @@ namespace Write.Pocos
         public int TotalParticipants { get; set; }
         public decimal TotalAmount { get; set; }
         public virtual ICollection<Presence> Presences { get; set; }
-
+        public DateTime? UpdateDate { get; set; }
     }
 }

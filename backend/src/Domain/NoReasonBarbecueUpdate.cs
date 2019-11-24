@@ -3,7 +3,7 @@ using System;
 
 namespace Domain
 {
-    public class NoReasonBarbecueUpdate : IRequest<Guid>
+    public class NoReasonBarbecueUpdate : IRequest<DateTime>
     {
         public Guid Id { get; private set; }
         public DateTime Date { get; private set; }

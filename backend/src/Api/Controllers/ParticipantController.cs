@@ -39,15 +39,15 @@ namespace Api.Controllers
 
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<Presence>> Cancel(Guid id, [FromBody] PresenceCancelation presence)
+        [HttpDelete("{participantId}")]
+        public async Task<ActionResult<Presence>> Cancel(Guid id, Guid participantId)
         {
             try
             {
                 await _dispatcher.Send(
                     EventOrganizer
                         .CancelPresence
-                        .Of(presence.ParticipantId)
+                        .Of(participantId)
                         .On(id)
                         .Please());
 
