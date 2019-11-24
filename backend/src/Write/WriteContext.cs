@@ -23,6 +23,9 @@ namespace Write
                 .HasOne(sc => sc.Participant)
                 .WithMany(s => s.Presences)
                 .HasForeignKey(sc => sc.ParticipantId);
+
+            modelBuilder.Entity<Participant>()
+                .HasData(Seed.Seed.Participants);
         }
 
         public DbSet<Barbecue> Barbecues { get; set; }
