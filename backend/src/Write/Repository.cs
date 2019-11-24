@@ -1,5 +1,6 @@
 ﻿using CrossCutting;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Write
@@ -25,6 +26,15 @@ namespace Write
         public async Task<TEntity> Delete(Guid key)
         {
             var entity = await Find(key);
+            _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            return entity;
+        }
+
+        public IQueryable<TEntity> GetAll()
+        => _context.Set<TEntity>();
+
+        public TEntity Delete(TEntity entity)
+        {
             _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
             return entity;
         }

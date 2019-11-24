@@ -10,6 +10,7 @@ namespace System
     {
         public static IServiceCollection AddWriteDependencies(this IServiceCollection services, IConfiguration configuration)
             => services.AddDbContext<WriteContext>(options => options.UseSqlServer(configuration.GetConnectionString(Consts.WRITE_DB)))
-            .AddTransient<IBarbecueRepository, BarbecueRepository>();
+            .AddTransient<IBarbecueRepository, BarbecueRepository>()
+            .AddTransient<IPresenceRepository, PresenceRepository>();
     }
 }
