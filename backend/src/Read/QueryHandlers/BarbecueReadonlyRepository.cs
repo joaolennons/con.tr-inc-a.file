@@ -37,7 +37,7 @@ namespace Read
                 return null;
 
             var participants = result.Where(o => o.ParticipantId != Guid.Empty)
-                .Select(projection => new BarbecueInfo.Participant(projection.ParticipantId, projection.Name, projection.Value));
+                .Select(projection => new BarbecueInfo.Participant(projection.ParticipantId, projection.Name, projection.Value, projection.Paid));
 
             return _mapper.Map<BarbecueInfo>(result.First()).AddParticipants(participants);
         }

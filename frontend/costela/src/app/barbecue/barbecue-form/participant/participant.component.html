@@ -1,4 +1,5 @@
-<app-checkbox *ngIf="!readonly" on="pago" off="não pago"></app-checkbox>
+<app-checkbox [isChecked]="paymentStatus" *ngIf="!readonly" on="pago" off="não pago" (checked)="emitSetPayment($event)">
+</app-checkbox>
 <span *ngIf="readonly" style="width:10%">-</span>
 <app-auto-complete (add)="emitAdd($event)" (focus)="emitFocus()" [data]="data" [value]="value"
     placeholder="Diga quem vem no churras :)">

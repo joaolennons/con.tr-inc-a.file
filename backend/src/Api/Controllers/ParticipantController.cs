@@ -60,6 +60,27 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPut("{participantId}/payment")]
+        public async Task<ActionResult<Presence>> UpdatePayment(Guid id, Guid participantId, [FromBody] Payment payment)
+        {
+            try
+            {
+                await _dispatcher.Send(
+                    EventOrganizer
+                        .UpdatePayment
+                        .Of(participantId)
+                        .On(id)
+                        .SetPaid(payment.Paid)
+                        .Please());
+
+                return Ok(payment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete("{participantId}")]
         public async Task<ActionResult<Presence>> Cancel(Guid id, Guid participantId)
         {

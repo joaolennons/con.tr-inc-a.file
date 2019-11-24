@@ -8,7 +8,7 @@ namespace Read
         {
             public const string GetAll = @"SELECT * FROM Barbecues";
 
-            public static string GetBy(Guid id) => $@"SELECT B.*, PA.Id as ParticipantId, PA.Name, P.Value
+            public static string GetBy(Guid id) => $@"SELECT B.*, PA.Id as ParticipantId, PA.Name, P.Paid, P.Value
             FROM Barbecues B
             LEFT JOIN Presence P
             ON B.Id = P.BarbecueId

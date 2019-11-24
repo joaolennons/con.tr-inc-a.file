@@ -14,5 +14,6 @@ namespace Read.Dtos
         public Guid ParticipantId { get; set; }
         public string Name { get; set; }
         public decimal Value { get; set; }
+        public bool Paid { get; set; }
     }
 }

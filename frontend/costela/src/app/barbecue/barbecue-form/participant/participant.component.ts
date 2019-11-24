@@ -24,6 +24,7 @@ export class ParticipantComponent implements ControlValueAccessor {
   @Output() changeDrinkingOption = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
   @Input() drinking: boolean;
+  @Input() paymentStatus: boolean;
 
   constructor(private cd: ChangeDetectorRef) {
     this.onChange = (_: any) => { };
@@ -64,6 +65,7 @@ export class ParticipantComponent implements ControlValueAccessor {
   @Input() public data: Array<any>[];
   @Output() add = new EventEmitter<any>();
   @Output() remove = new EventEmitter<any>();
+  @Output() paid = new EventEmitter<any>();
 
   ngOnInit() {
   }
@@ -82,5 +84,9 @@ export class ParticipantComponent implements ControlValueAccessor {
 
   emitFocus() {
     this.focus.emit();
+  }
+
+  emitSetPayment($event) {
+    this.paid.emit($event)
   }
 }

@@ -1,5 +1,5 @@
 <div class="pretty p-round p-fill p-toggle">
-  <input type="checkbox" />
+  <input type="checkbox" [(ngModel)]="isChecked" (change)="emitChecked()" />
   <div class="state p-warning p-on">
     <i class="icon mdi mdi-check"></i>
     <label></label>

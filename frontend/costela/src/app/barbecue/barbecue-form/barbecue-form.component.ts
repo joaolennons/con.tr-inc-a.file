@@ -108,7 +108,15 @@ export class BarbecueFormComponent implements OnInit {
     this.service.changeDrinkingOption(this.barbecue.id, { participantId: participant.id, drinking: !(participant.value === 20) })
       .subscribe(() => {
         this.getBarbecue(this.barbecue.id);
-      })
+      }, error => console.error(error))
+  }
+
+  public setPayment(paid, index) {
+    const participant = this._participants[index];
+    this.service.setPayment(this.barbecue.id, participant.id, { paid: paid })
+      .subscribe(() => {
+        this.getBarbecue(this.barbecue.id);
+      }, error => console.error(error))
   }
 
   private _add(participant: any) {

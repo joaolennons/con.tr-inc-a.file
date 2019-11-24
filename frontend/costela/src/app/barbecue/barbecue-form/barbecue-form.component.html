@@ -11,12 +11,13 @@
             (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)"
             (changeDrinkingOption)="changeDrinkingOption(participantIndex)"
             [drinking]="exists(participantIndex)?.value === 20" [value]="exists(participantIndex)"
-            (focus)="enableEditing()">
+            (focus)="enableEditing()" [paymentStatus]="exists(participantIndex)?.paid"
+            (paid)="setPayment($event, participantIndex)">
           </app-participant>
         </div>
       </div>
     </form>
     <span class="autosave">Seu churras foi salvo pela útlima vez em
-      {{barbecue.updateDate | date: 'dd/mm/yyyy \'às\' HH:mm'}}</span>
+      {{barbecue.updateDate | date: 'dd/mm/yyyy \'às\' HH:mm:ss'}}</span>
   </div>
 </div>

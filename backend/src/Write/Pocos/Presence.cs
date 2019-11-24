@@ -13,6 +13,7 @@ namespace Write.Pocos
         public Barbecue Barbecue { get; set; }
         public Guid ParticipantId { get; set; }
         public Participant Participant { get; set; }
+        public bool Paid { get; set; }
 
         public Presence()
         {
