@@ -28,11 +28,11 @@ export class BarbecueService {
         return this._http.post<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants`, { participantId: participant.id, drinking: participant.drinking });
     }
 
-    public removeParticipant(barbecueId: string, participantId: string) {
-        return this._http.delete<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${participantId}`);
+    public removeParticipant(barbecueId: string, participantId: string, paid: boolean) {
+        return this._http.delete<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${participantId}?wasPaid=${paid}`);
     }
 
-    public changeDrinkingOption(barbecueId: string, presence: { participantId: any; drinking: any; }) {
+    public changeDrinkingOption(barbecueId: string, presence: { participantId: any; drinking: any; paid: boolean }) {
         return this._http.put(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${presence.participantId}`, presence)
     }
 

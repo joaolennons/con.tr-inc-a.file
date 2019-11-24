@@ -7,6 +7,7 @@ export class Barbecue {
     description: string;
     totalParticipants: number;
     totalAmount: number;
+    totalRaised: number;
     participants: Array<Participant>;
 
     constructor() {

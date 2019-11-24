@@ -18,7 +18,7 @@ export class BarbecueFormComponent implements OnInit {
 
   public savedAt = new Date();
   public barbecueForm: FormGroup;
-  public _participants: Array<any> = [];
+  public _participants: Array<Participant> = [];
 
   constructor(private service: BarbecueService, private fb: FormBuilder, private activatedRoute: ActivatedRoute) { }
 
@@ -47,12 +47,24 @@ export class BarbecueFormComponent implements OnInit {
           this._participants = [];
           this._clearFormArray(this.participants);
           bbq.participants.forEach(o => {
+            o.drinking = o.value === 20;
             this._add(o);
             this.participants.push(this.fb.group({ participant: '' }));
           });
           this.participants.push(this.fb.group({ participant: '' }));
+        } else {
+          this.updateParticipants(bbq.participants);
         }
       }, error => console.error(error));
+  }
+
+  public updateParticipants(participants: Participant[]) {
+    this._participants.forEach(participant => {
+      const updated = participants.find(o => o.id === participant.id);
+      participant.paid = updated.paid;
+      participant.value = updated.value;
+      participant.drinking = updated.value === 20
+    })
   }
 
   public editBarbecue(barbecue: Barbecue) {
@@ -87,7 +99,8 @@ export class BarbecueFormComponent implements OnInit {
 
   public removeParticipant(index) {
     if (this.exists(index)) {
-      this.service.removeParticipant(this.barbecue.id, this._participants[index].id)
+      const participant = this._participants[index];
+      this.service.removeParticipant(this.barbecue.id, participant.id, participant.paid)
         .subscribe(() => {
           this._remove(index);
           this.participants.removeAt(index);
@@ -105,7 +118,7 @@ export class BarbecueFormComponent implements OnInit {
 
   public changeDrinkingOption(item) {
     const participant = this._participants[item];
-    this.service.changeDrinkingOption(this.barbecue.id, { participantId: participant.id, drinking: !(participant.value === 20) })
+    this.service.changeDrinkingOption(this.barbecue.id, { participantId: participant.id, drinking: !(participant.drinking), paid: participant.paid })
       .subscribe(() => {
         this.getBarbecue(this.barbecue.id);
       }, error => console.error(error))
