@@ -8,6 +8,7 @@ namespace Domain
         public Guid ParticipantId { get; private set; }
         public Guid BarbecueId { get; private set; }
         public decimal Value { get; private set; }
+        public bool Paid { get; private set; }
 
         public class UpdatePresenceBuilder
         {
@@ -32,6 +33,12 @@ namespace Domain
             public UpdatePresenceBuilder PayingBy(Drinking optingTo)
             {
                 _presence.Value = optingTo == Drinking.Yes ? DrinkingOptionValue.Instance.Drinking : DrinkingOptionValue.Instance.NotDrinking;
+                return this;
+            }
+
+            public UpdatePresenceBuilder IsPaid(bool paid)
+            {
+                _presence.Paid = paid;
                 return this;
             }
 

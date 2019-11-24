@@ -6,7 +6,7 @@ namespace Read
     {
         public static class Barbecues
         {
-            public const string GetAll = @"SELECT * FROM Barbecues";
+            public const string GetAll = "SELECT * FROM Barbecues WHERE Date >= CONVERT(date, getdate())";
 
             public static string GetBy(Guid id) => $@"SELECT B.*, PA.Id as ParticipantId, PA.Name, P.Paid, P.Value
             FROM Barbecues B

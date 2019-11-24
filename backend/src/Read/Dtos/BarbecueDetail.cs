@@ -11,6 +11,7 @@ namespace Read.Dtos
         public string Observation { get; set; }
         public int TotalParticipants { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal TotalRaised { get; set; }
         public Guid ParticipantId { get; set; }
         public string Name { get; set; }
         public decimal Value { get; set; }

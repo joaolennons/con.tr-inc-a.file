@@ -8,6 +8,7 @@ namespace Read.Dtos
         public Guid Id { get; internal set; }
         public string Description { get; internal set; }
         public decimal TotalAmount { get; internal set; }
+        public decimal TotalRaised { get; internal set; }
         public int TotalParticipants { get; internal set; }
         public IEnumerable<Participant> Participants { get; private set; }
         public DateTime Date { get; internal set; }

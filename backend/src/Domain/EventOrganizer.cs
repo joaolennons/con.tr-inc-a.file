@@ -1,4 +1,5 @@
 ﻿using System;
+using static Domain.CancelBarbecue;
 using static Domain.CancelPresenceOnBarbecue;
 using static Domain.NoReasonBarbecue;
 using static Domain.NoReasonBarbecueUpdate;
@@ -16,5 +17,6 @@ namespace Domain
         public static UpdatePresenceBuilder UpdatePresence => new UpdatePresenceBuilder();
         public static PaymentBuilder UpdatePayment => new PaymentBuilder();
         public static CancelPresenceBuilder CancelPresence => new CancelPresenceBuilder();
+        public static CancelBarbecueBuilder CancelBarbecue(Guid id) => new CancelBarbecueBuilder(id);
     }
 }

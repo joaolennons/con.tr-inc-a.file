@@ -13,6 +13,7 @@ namespace Write.Pocos
         public string Observation { get; set; }
         public int TotalParticipants { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal TotalRaised { get; set; }
         public virtual ICollection<Presence> Presences { get; set; }
         public DateTime? UpdateDate { get; set; }
     }

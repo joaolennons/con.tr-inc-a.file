@@ -50,6 +50,7 @@ namespace Api.Controllers
                         .Of(presence.ParticipantId)
                         .On(id)
                         .PayingBy(presence.Drinking ? Drinking.Yes : Drinking.No)
+                        .IsPaid(presence.Paid)
                         .Please());
 
                 return Ok(presence);
@@ -82,7 +83,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{participantId}")]
-        public async Task<ActionResult<Presence>> Cancel(Guid id, Guid participantId)
+        public async Task<ActionResult<Presence>> Cancel(Guid id, Guid participantId, bool wasPaid)
         {
             try
             {
@@ -91,6 +92,7 @@ namespace Api.Controllers
                         .CancelPresence
                         .Of(participantId)
                         .On(id)
+                        .WasPaid(wasPaid)
                         .Please());
 
                 return NoContent();

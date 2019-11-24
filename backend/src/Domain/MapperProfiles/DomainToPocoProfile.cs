@@ -9,7 +9,7 @@ namespace System
         public DomainToPocoProfile()
         {
             CreateMap<NoReasonBarbecue, Barbecue>()
-                .ForMember(destination => destination.Date, src => src.MapFrom(o => DateTime.Now))
+                .ForMember(destination => destination.UpdateDate, src => src.MapFrom(o => DateTime.Now))
                 .ForAllOtherMembers(o => o.MapAtRuntime());
         }
     }

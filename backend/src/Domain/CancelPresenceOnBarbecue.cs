@@ -7,6 +7,7 @@ namespace Domain
     {
         public Guid ParticipantId { get; private set; }
         public Guid BarbecueId { get; private set; }
+        public bool Paid { get; private set; }
 
         public class CancelPresenceBuilder
         {
@@ -25,6 +26,12 @@ namespace Domain
             public CancelPresenceBuilder On(Guid barbecueId)
             {
                 _presence.BarbecueId = barbecueId;
+                return this;
+            }
+
+            public CancelPresenceBuilder WasPaid(bool wasPaid)
+            {
+                _presence.Paid = wasPaid;
                 return this;
             }
 

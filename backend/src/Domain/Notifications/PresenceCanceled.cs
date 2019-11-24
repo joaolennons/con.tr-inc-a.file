@@ -4,9 +4,14 @@ namespace Domain.Notifications
 {
     public class PresenceCanceled : PresenceChanged
     {
-        private PresenceCanceled(Guid barbecueId, decimal value) : base(barbecueId, value){ }
+        private PresenceCanceled(Guid barbecueId, decimal value, bool paid) : base(barbecueId, value)
+        {
+            Paid = paid;
+        }
 
-        public static PresenceCanceled Notify(Guid barbecueId, decimal value)
-         => new PresenceCanceled(barbecueId, value);
+        public bool Paid { get; }
+
+        public static PresenceCanceled Notify(Guid barbecueId, decimal value, bool paid)
+         => new PresenceCanceled(barbecueId, value, paid);
     }
 }

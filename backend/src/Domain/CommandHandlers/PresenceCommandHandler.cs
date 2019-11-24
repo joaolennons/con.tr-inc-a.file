@@ -52,7 +52,7 @@ namespace Domain.CommandHandlers
                 presence.Barbecue.UpdateDate = DateTime.Now;
                 _context.Entry(presence).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
-                await _mediator.Publish(PresenceCanceled.Notify(request.BarbecueId, presence.Value));
+                await _mediator.Publish(PresenceCanceled.Notify(request.BarbecueId, presence.Value, request.Paid));
             }
 
             return Unit.Value;
@@ -70,7 +70,7 @@ namespace Domain.CommandHandlers
                 var oldValue = presence.Value;
                 presence.Value = request.Value;
                 await _context.SaveChangesAsync();
-                await _mediator.Publish(PresenceUpdated.Notify(request.BarbecueId, oldValue, presence.Value));
+                await _mediator.Publish(PresenceUpdated.Notify(request.BarbecueId, oldValue, presence.Value, request.Paid));
             }
 
             return Unit.Value;

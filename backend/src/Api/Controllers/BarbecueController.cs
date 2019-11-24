@@ -64,6 +64,24 @@ namespace Api.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _dispatcher.Send(
+                    EventOrganizer
+                    .CancelBarbecue(id)
+                    .Please());
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet()]
         public async Task<ActionResult<IEnumerable<Read.Dtos.BarbecueDto>>> GetAll()
         {
