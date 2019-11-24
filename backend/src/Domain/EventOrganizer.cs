@@ -1,8 +1,8 @@
 ﻿using System;
 using static Domain.CancelBarbecue;
 using static Domain.CancelPresenceOnBarbecue;
-using static Domain.NoReasonBarbecue;
-using static Domain.NoReasonBarbecueUpdate;
+using static Domain.CreateNoReasonBarbecue;
+using static Domain.UpdateNoReasonBarbecue;
 using static Domain.PresenceOnBarbecue;
 using static Domain.UpdatePayment;
 using static Domain.UpdatePresenceOnBarbecue;

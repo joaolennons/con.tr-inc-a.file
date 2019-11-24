@@ -8,8 +8,8 @@ using Write.Pocos;
 
 namespace Domain.CommandHandlers
 {
-    public class NoReasonBarbecueCommandHandler : IRequestHandler<NoReasonBarbecue, Guid>,
-        IRequestHandler<NoReasonBarbecueUpdate, DateTime>,
+    public class NoReasonBarbecueCommandHandler : IRequestHandler<CreateNoReasonBarbecue, Guid>,
+        IRequestHandler<UpdateNoReasonBarbecue, DateTime>,
         IRequestHandler<CancelBarbecue>
     {
         private readonly WriteContext _context;
@@ -20,7 +20,7 @@ namespace Domain.CommandHandlers
             _context = context;
         }
 
-        public async Task<Guid> Handle(NoReasonBarbecue request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateNoReasonBarbecue request, CancellationToken cancellationToken)
         {
             var bbq = _mapper.Map<Barbecue>(request);
             _context.Barbecues.Add(bbq);
@@ -28,7 +28,7 @@ namespace Domain.CommandHandlers
             return bbq.Id;
         }
 
-        public async Task<DateTime> Handle(NoReasonBarbecueUpdate request, CancellationToken cancellationToken)
+        public async Task<DateTime> Handle(UpdateNoReasonBarbecue request, CancellationToken cancellationToken)
         {
             var bbq = await _context.Barbecues.FindAsync(request.Id);
             bbq.Date = request.Date;

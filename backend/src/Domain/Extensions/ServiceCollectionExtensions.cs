@@ -9,7 +9,7 @@ namespace System
     public static class ServiceCollectionExtensions
     { 
         public static IServiceCollection AddDomainDependency(this IServiceCollection services, IConfiguration configuration)
-            => services.AddMediatR(Assembly.GetAssembly(typeof(NoReasonBarbecue)))
+            => services.AddMediatR(Assembly.GetAssembly(typeof(CreateNoReasonBarbecue)))
             .AddWriteDependencies(configuration)
             .AddDrinkingValues(configuration);
 

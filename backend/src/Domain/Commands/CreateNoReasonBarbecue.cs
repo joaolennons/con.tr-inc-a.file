@@ -3,7 +3,7 @@ using System;
 
 namespace Domain
 {
-    public class NoReasonBarbecue : IRequest<Guid>
+    public class CreateNoReasonBarbecue : IRequest<Guid>
     {
         public DateTime Date { get; protected set; }
         public string Description { get; protected set; }
@@ -11,10 +11,10 @@ namespace Domain
 
         public class BarbecueBuilder
         {
-            private readonly NoReasonBarbecue _bbq;
+            private readonly CreateNoReasonBarbecue _bbq;
             public BarbecueBuilder()
             {
-                _bbq = new NoReasonBarbecue();
+                _bbq = new CreateNoReasonBarbecue();
             }
 
             public BarbecueBuilder Named(string description)
@@ -35,7 +35,7 @@ namespace Domain
                 return this;
             }
 
-            public NoReasonBarbecue Please() => _bbq;
+            public CreateNoReasonBarbecue Please() => _bbq;
         }
     }
 }
