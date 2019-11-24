@@ -1,3 +1,5 @@
+import { Participant } from './participant.model';
+
 export class Barbecue {
     id: string;
     date: Date;
@@ -5,6 +7,7 @@ export class Barbecue {
     description: string;
     totalParticipants: number;
     totalAmount: number;
+    participants: Array<Participant>;
 
     constructor() {
 

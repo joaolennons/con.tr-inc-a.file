@@ -39,7 +39,9 @@ export class BarbecueFormComponent implements OnInit {
 
   public getBarbecue(id: string) {
     this.service.get(id)
-      .subscribe(bbq => this.barbecue = bbq, error => console.error(error));
+      .subscribe(bbq => {
+        this.barbecue = bbq;
+      }, error => console.error(error));
   }
 
   public editBarbecue(barbecue: Barbecue) {

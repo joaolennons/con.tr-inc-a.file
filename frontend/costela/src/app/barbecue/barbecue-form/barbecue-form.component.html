@@ -9,7 +9,8 @@
         <div *ngFor="let item of participants.controls; let participantIndex=index" [formGroupName]="participantIndex">
           <app-participant formControlName="participant" [data]="filterData()" (add)="addParticipant($event)"
             (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)"
-            (change)="changeDrinkingOption($event, participantIndex)" [drinking]="exists(participantIndex)?.drinking">
+            (change)="changeDrinkingOption($event, participantIndex)"
+            [drinking]="exists(participantIndex)?.value === 20">
           </app-participant>
         </div>
       </div>

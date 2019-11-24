@@ -17,5 +17,10 @@ namespace Read
             WHERE B.ID = '{id}'";
             public static string OrderDesc(string field) => $"ORDER BY {field} desc";
         }
+
+        public static class Participants
+        {
+            public const string GetAll = @"SELECT * FROM Participant ORDER BY Name";
+        }
     }
 }

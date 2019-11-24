@@ -5,7 +5,8 @@ import { BarbecueListComponent } from './barbecue/barbecue-list/barbecue-list.co
 
 const routes: Routes = [
   { component: BarbecueListComponent, path: '' },
-  { component: BarbecueFormComponent, path: 'new-bbq' }
+  { component: BarbecueFormComponent, path: 'new-bbq' },
+  { component: BarbecueFormComponent, path: 'new-bbq/:id' }
 ];
 
 @NgModule({

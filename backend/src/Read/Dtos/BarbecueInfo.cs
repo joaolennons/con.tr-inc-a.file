@@ -21,12 +21,14 @@ namespace Read.Dtos
 
         public class Participant
         {
-            public Participant(string name, decimal value)
+            public Participant(Guid id, string name, decimal value)
             {
+                Id = id;
                 Name = name;
                 Value = value;
             }
 
+            public Guid Id { get; }
             public string Name { get; }
             public decimal Value { get; }
         }
