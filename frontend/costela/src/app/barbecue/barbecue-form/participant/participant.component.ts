@@ -20,6 +20,8 @@ export class ParticipantComponent implements ControlValueAccessor {
   private onChange: Function;
   private onTouched: Function;
   @Input() readonly: boolean;
+  @Output() change = new EventEmitter<any>();
+  @Input() drinking: boolean;
 
   constructor(private cd: ChangeDetectorRef) {
     this.onChange = (_: any) => { };
@@ -72,4 +74,7 @@ export class ParticipantComponent implements ControlValueAccessor {
     this.remove.emit($event);
   }
 
+  emitChange($event) {
+    this.change.emit($event);
+  }
 }

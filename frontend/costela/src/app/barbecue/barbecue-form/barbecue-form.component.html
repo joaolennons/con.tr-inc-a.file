@@ -8,7 +8,8 @@
         </div>
         <div *ngFor="let item of participants.controls; let participantIndex=index" [formGroupName]="participantIndex">
           <app-participant formControlName="participant" [data]="filterData()" (add)="addParticipant($event)"
-            (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)">
+            (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)"
+            (change)="changeDrinkingOption($event, participantIndex)" [drinking]="exists(participantIndex)?.drinking">
           </app-participant>
         </div>
       </div>

@@ -25,10 +25,18 @@ export class BarbecueService {
     }
 
     public addParticipant(barbecueId: string, participant: Participant) {
-        return this._http.post<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants`, participant);
+        return this._http.post<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants`, { participantId: participant.id, drinking: participant.drinking });
     }
 
     public removeParticipant(barbecueId: string, participantId: string) {
         return this._http.delete<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${participantId}`);
+    }
+
+    public getEligibleParticipants(): Observable<Array<Participant>> {
+        return this._http.get<Array<Participant>>(`http://localhost:57331/trinca/api/v1/people`);
+    }
+
+    get(id: string): Observable<Barbecue> {
+        return this._http.get<Barbecue>(`http://localhost:57331/trinca/api/v1/Barbecue/${id}`);
     }
 }

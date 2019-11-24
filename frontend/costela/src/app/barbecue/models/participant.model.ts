@@ -1,4 +1,4 @@
 export interface Participant {
-    participantId: string;
+    id: string;
     drinking: boolean;
 }

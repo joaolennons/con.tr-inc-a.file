@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-drinking-option',
@@ -9,9 +9,15 @@ export class DrinkingOptionComponent implements OnInit {
 
   @Input() off: number;
   @Input() on: number;
+  @Output() change = new EventEmitter<any>();
+  @Input() selected: boolean;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  emitChange($event) {
+    this.change.emit($event);
   }
 
 }

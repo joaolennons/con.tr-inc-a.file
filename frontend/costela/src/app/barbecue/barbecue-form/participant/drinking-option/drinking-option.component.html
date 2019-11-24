@@ -1,5 +1,5 @@
 <div class="pretty p-default p-curve p-toggle">
-  <input type="checkbox" />
+  <input type="checkbox" [(ngModel)]="selected" (change)="emitChange(selected)" />
   <div class="state p-success p-on">
     <label>{{ on | currency:'BRL'}}</label>
     <small style="margin-left: 5px;"> | com bebida</small>

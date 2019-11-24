@@ -3,6 +3,7 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 import { Barbecue } from '../models/barbecue.model';
 import { BarbecueService } from '../barbecue.service';
 import { ActivatedRoute } from '@angular/router';
+import { Participant } from '../models/participant.model';
 
 @Component({
   selector: 'app-barbecue-form',
@@ -11,12 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BarbecueFormComponent implements OnInit {
 
-  data = [{
-    name: 'Joao',
-    participantId: 'a8b4dd13-25f1-45cc-af77-84e1bd92cb47'
-  }, { name: 'Roberta', participantId: '985fed44-1254-41b4-876e-e0717504bfd8' }];
-
-  barbecue: Barbecue = new Barbecue();
+  public data: Array<Participant>;
+  public barbecue: Barbecue = new Barbecue();
 
   public savedAt = new Date();
   public barbecueForm: FormGroup;
@@ -27,10 +24,22 @@ export class BarbecueFormComponent implements OnInit {
   public ngOnInit() {
     const id = this.activatedRoute.snapshot.params.id;
 
+    if (id) {
+      this.getBarbecue(id);
+    }
+
+    this.service.getEligibleParticipants()
+      .subscribe(people => this.data = people, error => console.error(error));
+
     this.barbecueForm = this.fb.group({
       title: [],
       participants: this.fb.array([this.fb.group({ participant: '' })])
     })
+  }
+
+  public getBarbecue(id: string) {
+    this.service.get(id)
+      .subscribe(bbq => this.barbecue = bbq, error => console.error(error));
   }
 
   public editBarbecue(barbecue: Barbecue) {
@@ -50,7 +59,7 @@ export class BarbecueFormComponent implements OnInit {
   }
 
   public filterData() {
-    return this.data.filter(o => !this._participants.includes(o));
+    return this.data ? this.data.filter(o => !this._participants.includes(o)) : [];
   }
 
   public addParticipant(participant: any) {
@@ -58,21 +67,28 @@ export class BarbecueFormComponent implements OnInit {
       .subscribe(() => {
         this._add(participant);
         this.participants.push(this.fb.group({ participant: '' }));
+        this.getBarbecue(this.barbecue.id);
       }, error => console.error(error));
   }
 
   public removeParticipant(index) {
     if (this.exists(index)) {
-      this.service.removeParticipant(this.barbecue.id, this._participants[index].participantId)
+      this.service.removeParticipant(this.barbecue.id, this._participants[index].id)
         .subscribe(() => {
           this._remove(index);
           this.participants.removeAt(index);
+          this.getBarbecue(this.barbecue.id);
+
           if (this._participants.length === 0) {
             this._clearFormArray(this.participants);
             this.participants.push(this.fb.group({ participant: '' }));
           }
         }, error => console.error(error));
     }
+  }
+
+  public changeDrinkingOption($event) {
+
   }
 
   private _add(participant: any) {
