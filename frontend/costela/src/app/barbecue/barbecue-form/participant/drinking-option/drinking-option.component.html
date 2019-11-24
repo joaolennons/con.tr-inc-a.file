@@ -1,11 +1,23 @@
-<div class="pretty p-default p-curve p-toggle">
-  <input type="checkbox" [(ngModel)]="selected" (change)="emitChange(selected)" />
+<div class="pretty p-default p-curve p-toggle" *ngIf="!readonly">
+  <input
+    type="checkbox"
+    [(ngModel)]="selected"
+    (change)="emitChange(selected)"
+  />
   <div class="state p-success p-on">
-    <label>{{ on | currency:'BRL'}}</label>
+    <label>{{ on | currency: "BRL" }}</label>
     <small style="margin-left: 5px;"> | com bebida</small>
   </div>
   <div class="state p-danger p-off">
-    <label>{{ off | currency:'BRL'}}</label>
+    <label>{{ off | currency: "BRL" }}</label>
     <small style="margin-left: 5px;"> | sem bebida</small>
+  </div>
+</div>
+
+<div class="pretty p-default p-curve" *ngIf="readonly">
+  <input type="checkbox" disabled="disabled" />
+  <div class="state p-success">
+    <label>dinheiros</label>
+    <small style="margin-left: 5px;"> | R$</small>
   </div>
 </div>

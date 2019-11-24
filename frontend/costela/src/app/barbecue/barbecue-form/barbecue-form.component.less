@@ -1,49 +1,71 @@
-app-barbecue-header {
+@import "../../../styles.less";
+app-barbecue-form {
+  .main-card {
+    padding: 30px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  .po-input.po-datepicker.po-input-icon-right {
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 28px !important;
+    /* display: flex; */
+    /* align-items: center; */
+    border-bottom: 1px solid #b6bdbf !important;
+    height: 50px !important;
+  }
+
+  .ng-valid .po-input:focus {
+    /* border: 1px solid #c9357d!important; */
+    outline: none !important;
+  }
+
+  app-barbecue-header {
     display: flex;
     width: 95%;
-}
-/* card box */
-.wrapper {
+    margin-bottom: 25px;
+  }
+  /* card box */
+  .wrapper {
     display: flex;
     justify-content: center;
-}
+  }
 
-form {
-    width: 95%;
-}
-
-.hints {
+  .hints {
     display: flex;
     justify-content: flex-end;
-}
+  }
 
-.main-card {
-position: absolute;
-width: 80%;
-height: 854px;
-top: 156px;
-
-background: #FFFFFF;
-box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.06);
-border-radius: 2px;
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-top: 20px;
-}
-
-//levar p/ componente
-.participant {
+  //levar p/ componente
+  .participant {
     display: flex;
     align-items: center;
     height: 40px;
-    border-bottom: 1px solid #E5C231;
-    border-top: 1px solid #E5C231;
+    border-bottom: 1px solid #e5c231;
+    border-top: 1px solid #e5c231;
     width: 97%;
     padding: 0px 10px 0px 10px;
-}
+  }
 
-.autosave {
+  .autosave {
     font-style: italic;
     margin-top: 35px;
+  }
+
+  .btns {
+    display: flex;
+  }
+
+  .btn {
+    margin-top: 30px;
+    margin-right: 10px;
+  }
+
+  .disabled {
+    background-color: lightgray !important;
+    cursor: unset !important;
+  }
 }

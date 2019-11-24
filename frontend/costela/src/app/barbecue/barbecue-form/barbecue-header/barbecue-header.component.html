@@ -1,23 +1,36 @@
 <div class="wrapper">
   <div class="header-column">
-    <h3 *ngIf="barbecue.date">{{barbecue.date | date: 'dd/MM'}}</h3>
+    <h3 *ngIf="barbecue.date">{{ barbecue.date | date: "dd/MM" }}</h3>
     <h3 *ngIf="!barbecue.date">
-      <po-datepicker [(ngModel)]="date" (p-blur)="setDate()" name="datepicker" p-placeholder="Quando?">
+      <po-datepicker
+        [(ngModel)]="date"
+        (p-blur)="setDate()"
+        [p-min-date]="today"
+        name="datepicker"
+        p-placeholder="Quando?"
+      >
       </po-datepicker>
     </h3>
-    <h1 *ngIf="barbecue.description">{{barbecue.description}}</h1>
-    <h1 *ngIf="!barbecue.description"><input type="text" placeholder="A troco de quê?" (blur)="setDescription()"
-        [(ngModel)]="description" />
+    <h1 *ngIf="barbecue.description">{{ barbecue.description }}</h1>
+    <h1 *ngIf="!barbecue.description">
+      <input
+        type="text"
+        placeholder="A troco de quê?"
+        (blur)="setDescription()"
+        [(ngModel)]="description"
+      />
     </h1>
   </div>
   <div class="header-column">
     <p class="inline">
       <i class="icon people"></i>
-      {{barbecue.totalParticipants || 0}}
+      {{ barbecue.totalParticipants || 0 }}
     </p>
     <p class="inline">
       <i class="icon money"></i>
-      {{barbecue.totalAmount || 0 | currency: 'BRL'}}/{{barbecue.totalRaised || 0 | currency: 'BRL'}}
+      {{ barbecue.totalAmount || 0 | currency: "BRL" }}/{{
+        barbecue.totalRaised || 0 | currency: "BRL"
+      }}
     </p>
   </div>
 </div>

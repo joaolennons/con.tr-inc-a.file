@@ -1,22 +1,64 @@
-<div class="wrapper">
-  <div class="main-card">
-    <app-barbecue-header [barbecue]="barbecue" (change)="editBarbecue($event)"></app-barbecue-header>
-    <form [formGroup]="barbecueForm">
-      <div formArrayName="participants">
-        <div class="hints">
-          <small style="margin-right: 10px">use a lixeira para quem não vai mais ):</small>
+<po-page-default>
+  <div class="wrapper">
+    <div class="main-card">
+      <app-barbecue-header
+        [barbecue]="barbecue"
+        (change)="editBarbecue($event)"
+      ></app-barbecue-header>
+      <form [formGroup]="barbecueForm" *ngIf="barbecue.id">
+        <div formArrayName="participants">
+          <div class="hints">
+            <small style="margin-right: 10px"
+              >use a lixeira para quem não vai mais ):</small
+            >
+          </div>
+          <div
+            *ngFor="
+              let item of participants.controls;
+              let participantIndex = index
+            "
+            [formGroupName]="participantIndex"
+          >
+            <app-participant
+              formControlName="participant"
+              [data]="filterData()"
+              (add)="addParticipant($event)"
+              (remove)="removeParticipant(participantIndex)"
+              [readonly]="!exists(participantIndex)"
+              (changeDrinkingOption)="changeDrinkingOption(participantIndex)"
+              [drinking]="exists(participantIndex)?.drinking"
+              [value]="exists(participantIndex)"
+              (focus)="enableEditing()"
+              [paymentStatus]="exists(participantIndex)?.paid"
+              (paid)="setPayment($event, participantIndex)"
+            >
+            </app-participant>
+          </div>
         </div>
-        <div *ngFor="let item of participants.controls; let participantIndex=index" [formGroupName]="participantIndex">
-          <app-participant formControlName="participant" [data]="filterData()" (add)="addParticipant($event)"
-            (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)"
-            (changeDrinkingOption)="changeDrinkingOption(participantIndex)"
-            [drinking]="exists(participantIndex)?.drinking" [value]="exists(participantIndex)" (focus)="enableEditing()"
-            [paymentStatus]="exists(participantIndex)?.paid" (paid)="setPayment($event, participantIndex)">
-          </app-participant>
-        </div>
+      </form>
+      <span class="autosave" *ngIf="barbecue.updateDate"
+        >Seu churras foi salvo pela útlima vez em
+        {{ barbecue.updateDate | date: "dd/mm/yyyy 'às' HH:mm:ss" }}</span
+      >
+      <span class="autosave" *ngIf="!barbecue.updateDate"
+        >Seu churras ainda não foi criado, preencha alguma informação acima
+        ;)</span
+      >
+
+      <div class="btns">
+        <span class="btn" (click)="goToList()">
+          <img src="../../../assets/go-back.svg" height="18px" />
+          Voltar
+        </span>
+        <span
+          class="btn"
+          (click)="giveUp()"
+          [class.disabled]="barbecue.id === undefined"
+        >
+          <img src="../../../assets/quit-ghost.svg" height="18px" />
+          Desistir do churras
+        </span>
       </div>
-    </form>
-    <span class="autosave">Seu churras foi salvo pela útlima vez em
-      {{barbecue.updateDate | date: 'dd/mm/yyyy \'às\' HH:mm:ss'}}</span>
+    </div>
   </div>
-</div>
+</po-page-default>
