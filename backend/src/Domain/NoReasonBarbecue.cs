@@ -3,9 +3,8 @@ using System;
 
 namespace Domain
 {
-    public class NoReasonBarbecue : IRequest
+    public class NoReasonBarbecue : IRequest<Guid>
     {
-        public Guid Id { get; protected set; }
         public DateTime Date { get; protected set; }
         public string Description { get; protected set; }
         public string Observation { get; protected set; }

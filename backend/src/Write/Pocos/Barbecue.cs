@@ -8,9 +8,11 @@ namespace Write.Pocos
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public string Description { get; set; }
         public string Observation { get; set; }
+        public int TotalParticipants { get; set; }
+        public decimal TotalAmount { get; set; }
         public virtual ICollection<Presence> Presences { get; set; }
 
     }

@@ -15,6 +15,7 @@ import { DrinkingOptionComponent } from './barbecue/barbecue-form/participant/dr
 import { TrashCanComponent } from './shared/trash-can/trash-can.component';
 import { BarbecueHeaderComponent } from './barbecue/barbecue-form/barbecue-header/barbecue-header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PoModule } from '@portinari/portinari-ui';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AutocompleteLibModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    PoModule
   ],
   providers: [],
   bootstrap: [AppComponent]

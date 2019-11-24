@@ -26,9 +26,30 @@ namespace Api.Controllers
         {
             try
             {
-                await _dispatcher.Send(
+                bbq.Id = await _dispatcher.Send(
                     EventOrganizer
                         .ScheduleNewBarbecue
+                        .Named(bbq.Description)
+                        .At(bbq.Date)
+                        .WithObservation(bbq.Observation)
+                        .Please());
+
+                return Ok(bbq);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Barbecue>> Put([FromBody] Barbecue bbq)
+        {
+            try
+            {
+                await _dispatcher.Send(
+                    EventOrganizer
+                        .UpdateBarbecue(bbq.Id)
                         .Named(bbq.Description)
                         .At(bbq.Date)
                         .WithObservation(bbq.Observation)

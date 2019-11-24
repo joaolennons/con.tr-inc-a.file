@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Write;
@@ -7,7 +8,7 @@ using Write.Pocos;
 
 namespace Domain.CommandHandlers
 {
-    public class NoReasonBarbecueCommandHandler : IRequestHandler<NoReasonBarbecue>
+    public class NoReasonBarbecueCommandHandler : IRequestHandler<NoReasonBarbecue, Guid>
     {
         private readonly WriteContext _context;
         private readonly IMapper _mapper;
@@ -17,11 +18,12 @@ namespace Domain.CommandHandlers
             _context = context;
         }
 
-        public async Task<Unit> Handle(NoReasonBarbecue request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(NoReasonBarbecue request, CancellationToken cancellationToken)
         {
-            _context.Barbecues.Add(_mapper.Map<Barbecue>(request));
+            var bbq = _mapper.Map<Barbecue>(request);
+            _context.Barbecues.Add(bbq);
             await _context.SaveChangesAsync();
-            return Unit.Value;
+            return bbq.Id;
         }
     }
 }

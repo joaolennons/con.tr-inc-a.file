@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Notifications;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
@@ -10,11 +11,13 @@ namespace Domain.CommandHandlers
 {
     public class PresenceCommandHandler : IRequestHandler<PresenceOnBarbecue>, IRequestHandler<CancelPresenceOnBarbecue>
     {
+        private readonly IMediator _mediator;
         private readonly WriteContext _context;
         
-        public PresenceCommandHandler(WriteContext context)
+        public PresenceCommandHandler(WriteContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
         }
 
         public async Task<Unit> Handle(PresenceOnBarbecue request, CancellationToken cancellationToken)
@@ -27,6 +30,7 @@ namespace Domain.CommandHandlers
             {
                 _context.Presence.Add(new Presence(request.Value, request.BarbecueId, request.ParticipantId));
                 await _context.SaveChangesAsync();
+                await _mediator.Publish(PresenceConfirmed.Notify(request.BarbecueId, request.Value));
             }
 
             return Unit.Value;
@@ -41,6 +45,7 @@ namespace Domain.CommandHandlers
             {
                 _context.Entry(presence).State = EntityState.Deleted;
                 await _context.SaveChangesAsync();
+                await _mediator.Publish(PresenceCanceled.Notify(request.BarbecueId, presence.Value));
             }
 
             return Unit.Value;
