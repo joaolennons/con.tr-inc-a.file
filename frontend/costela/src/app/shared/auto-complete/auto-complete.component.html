@@ -1,7 +1,7 @@
 <div class="ng-autocomplete">
   <ng-autocomplete #autocompleteChild [placeHolder]="placeholder" [data]="data" [searchKeyword]="keyword"
     (selected)='selectEvent($event)' (inputCleared)="removeEvent($event)" [itemTemplate]="itemTemplate"
-    [notFoundTemplate]="notFoundTemplate">
+    [notFoundTemplate]="notFoundTemplate" [initialValue]="value" (inputFocused)="emitFocus()">
   </ng-autocomplete>
 
   <ng-template #itemTemplate let-item>

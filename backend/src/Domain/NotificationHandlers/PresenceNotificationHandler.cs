@@ -7,7 +7,9 @@ using Write;
 
 namespace Domain.NotificationHandlers
 {
-    public class PresenceNotificationHandler : INotificationHandler<PresenceConfirmed>, INotificationHandler<PresenceCanceled>
+    public class PresenceNotificationHandler : INotificationHandler<PresenceConfirmed>,
+        INotificationHandler<PresenceUpdated>,
+        INotificationHandler<PresenceCanceled>
     {
         private readonly WriteContext _context;
         public PresenceNotificationHandler(WriteContext context)
@@ -19,6 +21,18 @@ namespace Domain.NotificationHandlers
 
         public async Task Handle(PresenceConfirmed notification, CancellationToken cancellationToken)
             => await UpdateBarbecue(notification, PresenceChangedType.Confirmed);
+
+        public async Task Handle(PresenceUpdated notification, CancellationToken cancellationToken)
+        {
+            var bbq = await _context.Barbecues
+                   .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
+
+            if (bbq == null)
+                return;
+
+            bbq.TotalAmount = bbq.TotalAmount - notification.OldValue + notification.Value;
+            await _context.SaveChangesAsync();
+        }
 
         private async Task UpdateBarbecue(PresenceChanged notification, PresenceChangedType changeType)
         {

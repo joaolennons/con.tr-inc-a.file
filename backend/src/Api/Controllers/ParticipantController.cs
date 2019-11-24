@@ -36,7 +36,28 @@ namespace Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpPut("{participantId}")]
+        public async Task<ActionResult<Presence>> Put(Guid id, Guid participantId, [FromBody] Presence presence)
+        {
+            try
+            {
+                presence.ParticipantId = participantId;
+                await _dispatcher.Send(
+                    EventOrganizer
+                        .UpdatePresence
+                        .Of(presence.ParticipantId)
+                        .On(id)
+                        .PayingBy(presence.Drinking ? Drinking.Yes : Drinking.No)
+                        .Please());
+
+                return Ok(presence);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{participantId}")]

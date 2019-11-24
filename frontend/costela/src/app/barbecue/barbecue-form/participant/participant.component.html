@@ -1,6 +1,7 @@
 <app-checkbox *ngIf="!readonly" on="pago" off="não pago"></app-checkbox>
 <span *ngIf="readonly" style="width:10%">-</span>
-<app-auto-complete (add)="emitAdd($event)" [data]="data" placeholder="Diga quem vem no churras :)">
+<app-auto-complete (add)="emitAdd($event)" (focus)="emitFocus()" [data]="data" [value]="value"
+    placeholder="Diga quem vem no churras :)">
 </app-auto-complete>
 <app-drinking-option [selected]="drinking" (change)="emitChange($event)" *ngIf="!readonly" on="20" off="10">
 </app-drinking-option>

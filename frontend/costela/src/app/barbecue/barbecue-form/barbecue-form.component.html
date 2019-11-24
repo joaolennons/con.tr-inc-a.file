@@ -9,12 +9,12 @@
         <div *ngFor="let item of participants.controls; let participantIndex=index" [formGroupName]="participantIndex">
           <app-participant formControlName="participant" [data]="filterData()" (add)="addParticipant($event)"
             (remove)="removeParticipant(participantIndex)" [readonly]="!exists(participantIndex)"
-            (change)="changeDrinkingOption($event, participantIndex)"
-            [drinking]="exists(participantIndex)?.value === 20">
+            (changeDrinkingOption)="changeDrinkingOption(participantIndex)"
+            [drinking]="exists(participantIndex)?.value === 20" [value]="exists(participantIndex)"
+            (focus)="enableEditing()">
           </app-participant>
         </div>
       </div>
-      <button (click)="whosgoing()" value="teaa"></button>
     </form>
     <span class="autosave">Seu churras foi salvo pela útlima vez em
       {{barbecue.updateDate | date: 'dd/mm/yyyy \'às\' HH:mm'}}</span>

@@ -1,9 +1,8 @@
-﻿using MediatR;
-using System;
+﻿using System;
 
 namespace Domain.Notifications
 {
-    public class PresenceCanceled : PresenceChanged, INotification
+    public class PresenceCanceled : PresenceChanged
     {
         private PresenceCanceled(Guid barbecueId, decimal value) : base(barbecueId, value){ }
 

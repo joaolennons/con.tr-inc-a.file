@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 @Component({
   selector: 'app-auto-complete',
@@ -11,8 +10,10 @@ export class AutoCompleteComponent implements OnInit {
 
   @Input() public data: Array<any>[];
   @Input() public placeholder: string;
+  @Input() public value: any;
   @Output() public add = new EventEmitter<any>();
   @Output() public remove = new EventEmitter<any>();
+  @Output() public focus = new EventEmitter<any>();
   constructor() {
 
   }
@@ -29,5 +30,9 @@ export class AutoCompleteComponent implements OnInit {
 
   removeEvent(item) {
     this.remove.emit(item);
+  }
+
+  emitFocus(item) {
+    this.focus.emit(item);
   }
 }

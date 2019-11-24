@@ -12,6 +12,7 @@ import { Participant } from '../models/participant.model';
 })
 export class BarbecueFormComponent implements OnInit {
 
+  public readonly: boolean;
   public data: Array<Participant>;
   public barbecue: Barbecue = new Barbecue();
 
@@ -25,6 +26,7 @@ export class BarbecueFormComponent implements OnInit {
     const id = this.activatedRoute.snapshot.params.id;
 
     if (id) {
+      this.readonly = true;
       this.getBarbecue(id);
     }
 
@@ -41,6 +43,15 @@ export class BarbecueFormComponent implements OnInit {
     this.service.get(id)
       .subscribe(bbq => {
         this.barbecue = bbq;
+        if (this.readonly) {
+          this._participants = [];
+          this._clearFormArray(this.participants);
+          bbq.participants.forEach(o => {
+            this._add(o);
+            this.participants.push(this.fb.group({ participant: '' }));
+          });
+          this.participants.push(this.fb.group({ participant: '' }));
+        }
       }, error => console.error(error));
   }
 
@@ -61,10 +72,11 @@ export class BarbecueFormComponent implements OnInit {
   }
 
   public filterData() {
-    return this.data ? this.data.filter(o => !this._participants.includes(o)) : [];
+    return this.data ? this.data.filter(o => !this._participants.find(w => w.id === o.id)) : [];
   }
 
   public addParticipant(participant: any) {
+    if (this.readonly) return;
     this.service.addParticipant(this.barbecue.id, participant)
       .subscribe(() => {
         this._add(participant);
@@ -79,18 +91,24 @@ export class BarbecueFormComponent implements OnInit {
         .subscribe(() => {
           this._remove(index);
           this.participants.removeAt(index);
-          this.getBarbecue(this.barbecue.id);
 
           if (this._participants.length === 0) {
             this._clearFormArray(this.participants);
             this.participants.push(this.fb.group({ participant: '' }));
           }
+
+          this.getBarbecue(this.barbecue.id);
+
         }, error => console.error(error));
     }
   }
 
-  public changeDrinkingOption($event) {
-
+  public changeDrinkingOption(item) {
+    const participant = this._participants[item];
+    this.service.changeDrinkingOption(this.barbecue.id, { participantId: participant.id, drinking: !(participant.value === 20) })
+      .subscribe(() => {
+        this.getBarbecue(this.barbecue.id);
+      })
   }
 
   private _add(participant: any) {
@@ -112,8 +130,9 @@ export class BarbecueFormComponent implements OnInit {
     return this._participants[index];
   }
 
-  whosgoing() {
+  public enableEditing() {
     console.log(this._participants);
+    this.readonly = false;
   }
 
 }

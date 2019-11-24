@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MediatR;
+using System;
 
 namespace Domain.Notifications
 {
-    public abstract class PresenceChanged
+    public abstract class PresenceChanged : INotification
     {
         public Guid BarbecueId { get; }
         public decimal Value { get; }

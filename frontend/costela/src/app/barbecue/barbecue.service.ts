@@ -8,6 +8,7 @@ import { Participant } from './models/participant.model';
 @Injectable({ providedIn: 'root' })
 export class BarbecueService {
 
+
     constructor(private _http: HttpClient) {
 
     }
@@ -30,6 +31,10 @@ export class BarbecueService {
 
     public removeParticipant(barbecueId: string, participantId: string) {
         return this._http.delete<Participant>(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${participantId}`);
+    }
+
+    changeDrinkingOption(barbecueId: string, presence: { participantId: any; drinking: any; }) {
+        return this._http.put(`http://localhost:57331/trinca/api/v1/Barbecue/${barbecueId}/participants/${presence.participantId}`, presence)
     }
 
     public getEligibleParticipants(): Observable<Array<Participant>> {
