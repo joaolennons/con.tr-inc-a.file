@@ -3,6 +3,7 @@ using Read.Dtos;
 using Read.QueryHandlers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -22,7 +23,12 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _read.GetAll());
+                var response = await _read.GetAll();
+
+                if (!response.Any())
+                    return NotFound();
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Read;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.Controllers
@@ -71,7 +72,12 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _read.GetAll());
+                var response = await _read.GetAll();
+
+                if (!response.Any())
+                    return NotFound();
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -84,7 +90,12 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _read.GetBy(id));
+                var response = await _read.GetBy(id);
+
+                if (response == null)
+                    return NotFound();
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,6 @@
 <div class="wrapper">
   <div class="header-column">
-    <h3 *ngIf="barbecue.date">{{ barbecue.date | date: "dd/MM" }}</h3>
-    <h3 *ngIf="!barbecue.date">
+    <h3>
       <po-datepicker
         [(ngModel)]="date"
         (p-blur)="setDate()"

@@ -18,12 +18,16 @@ export class BarbecueHeaderComponent implements OnInit {
   @Input() barbecue: Barbecue;
   @Output() change = new EventEmitter<any>();
   public description: string;
-  public date: string;
+  public date: Date;
   public today = new Date();
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.barbecue.date) {
+      this.date = this.barbecue.date;
+    }
+  }
 
   setDate() {
     if (this.date) {
