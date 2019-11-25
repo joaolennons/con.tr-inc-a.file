@@ -19,7 +19,7 @@ A arquitetura também simula um *CQRS* ainda que com a mesma base para escrita e
 
 ![alt text](Arquitetura.png)
 
-###Usabilidade
+### Usabilidade
 
 **Importante**: o frontend não está reponsivo (ainda!) então deve ser executado em um monitor com resolução md, lg ou xl.
 O foco na usabilidade da aplicação é salvar automaticamente cada interação do usuário com o sistema;
