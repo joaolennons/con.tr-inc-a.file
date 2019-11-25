@@ -2,7 +2,7 @@
 
 ### Instruções
 
-Execute o arquivo run.bat que está na raíz do repositório (assumi que está em um windows  ¯\_(ツ)_/¯): 
+Execute o arquivo run.bat que está na raíz do repositório (assumi que será executado em um windows  ¯\\_(ツ)_/¯): 
   - publica o *backend* e levanta o servidor no Kestrel na porta 5000; 
     - [Swagger da Api](http://localhost:5000/swagger "Swagger da Api")
 
