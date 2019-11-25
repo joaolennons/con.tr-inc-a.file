@@ -51,7 +51,7 @@ E dizer quem já pagou
 
 ![alt text](how-to/7.pago.png)
 
-Repare no cabeçalho os valores de quanto deve ser arrecadado e o quanto já foi se atualiza; Por padrão as pessoas são adicionadas ao *churras* como se não fossem beber, mas a maioria bebe, certo? então vamos avisar isso; os valores de arrecadação são atualizados.
+Repare no cabeçalho os valores de quanto deve ser arrecadado e o quanto já foi se atualiza; Por padrão, as pessoas são adicionadas ao *churras* como se não fossem beber, mas a maioria bebe, certo? então vamos avisar isso; os valores de arrecadação são atualizados.
 
 ![alt text](how-to/8.com-bebida.png)
 
