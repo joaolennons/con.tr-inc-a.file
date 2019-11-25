@@ -18,12 +18,14 @@ namespace Domain.CommandHandlers
         private readonly IMediator _mediator;
         private readonly IPresenceRepository _presences;
         private readonly IBarbecueRepository _barbecues;
-        
-        public PresenceCommandHandler(IPresenceRepository presences, IBarbecueRepository barbecues, IMediator mediator)
+        private readonly INotificationHandler _notifications;
+
+        public PresenceCommandHandler(INotificationHandler notifications, IPresenceRepository presences, IBarbecueRepository barbecues, IMediator mediator)
         {
             _presences = presences;
             _barbecues = barbecues;
             _mediator = mediator;
+            _notifications = notifications;
         }
 
         public async Task<Unit> Handle(PresenceOnBarbecue request, CancellationToken cancellationToken)
@@ -32,7 +34,11 @@ namespace Domain.CommandHandlers
                .Include(o => o.Presences)
                .FirstOrDefaultAsync(o => o.Id == request.BarbecueId);
 
-            if (barbecue == null) return Unit.Value;
+            if (barbecue == null)
+            {
+                _notifications.AddNotification(AppConsts.BarbecueNotFound);
+                return Unit.Value;
+            }
 
             if (!barbecue.Presences.Any(o => o.ParticipantId == request.ParticipantId))
             {
@@ -51,13 +57,17 @@ namespace Domain.CommandHandlers
                 .Include(o => o.Barbecue)
                 .FirstOrDefault(o => o.ParticipantId == request.ParticipantId && o.BarbecueId == request.BarbecueId);
 
-            if (presence != null)
+            if (presence == null)
             {
-                presence.Barbecue.UpdateDate = DateTime.Now;
-                _presences.Delete(presence);
-                await _presences.Commit();
-                await _mediator.Publish(PresenceCanceled.Notify(request.BarbecueId, presence.Value, request.Paid));
+                _notifications.AddNotification(AppConsts.PresenceNotFound);
+                return Unit.Value;
             }
+
+            presence.Barbecue.UpdateDate = DateTime.Now;
+            _presences.Delete(presence);
+            await _presences.Commit();
+            await _mediator.Publish(PresenceCanceled.Notify(request.BarbecueId, presence.Value, request.Paid));
+
 
             return Unit.Value;
         }
@@ -68,14 +78,18 @@ namespace Domain.CommandHandlers
                 .Include(o => o.Barbecue)
                 .FirstOrDefault(o => o.ParticipantId == request.ParticipantId && o.BarbecueId == request.BarbecueId);
 
-            if (presence != null)
+            if (presence == null)
             {
-                presence.Barbecue.UpdateDate = DateTime.Now;
-                var oldValue = presence.Value;
-                presence.Value = request.Value;
-                await _presences.Commit();
-                await _mediator.Publish(PresenceUpdated.Notify(request.BarbecueId, oldValue, presence.Value, request.Paid));
+                _notifications.AddNotification(AppConsts.PresenceNotFound);
+                return Unit.Value;
             }
+
+            presence.Barbecue.UpdateDate = DateTime.Now;
+            var oldValue = presence.Value;
+            presence.Value = request.Value;
+            await _presences.Commit();
+            await _mediator.Publish(PresenceUpdated.Notify(request.BarbecueId, oldValue, presence.Value, request.Paid));
+
 
             return Unit.Value;
         }
@@ -86,13 +100,17 @@ namespace Domain.CommandHandlers
                 .Include(o => o.Barbecue)
                 .FirstOrDefault(o => o.ParticipantId == request.ParticipantId && o.BarbecueId == request.BarbecueId);
 
-            if (presence != null)
+            if (presence == null)
             {
+                _notifications.AddNotification(AppConsts.PresenceNotFound);
+                return Unit.Value;
+            }
+            
                 presence.Barbecue.UpdateDate = DateTime.Now;
                 presence.Paid = request.Paid;
                 await _presences.Commit();
                 await _mediator.Publish(PaymentUpdated.Notify(request.BarbecueId, presence.Value, request.Paid));
-            }
+            
 
             return Unit.Value;
         }

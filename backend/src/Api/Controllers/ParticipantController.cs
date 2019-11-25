@@ -1,5 +1,6 @@
 ﻿using Api.ViewModels;
 using AppServices;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -8,10 +9,10 @@ namespace Api.Controllers
 {
     [Route("trinca/api/v1/Barbecue/{id}/participants")]
     [ApiController]
-    public class ParticipantController : ControllerBase
+    public class ParticipantController : ApiController
     {
         private readonly IParticipantAppService _appService;
-        public ParticipantController(IParticipantAppService appService)
+        public ParticipantController(INotificationHandler handler, IParticipantAppService appService) : base(handler)
         {
             _appService = appService;
         }
@@ -22,6 +23,9 @@ namespace Api.Controllers
             try
             {
                 await _appService.ConfirmPresence(id, presence);
+
+                if (Notifications.HasNotification)
+                    return BadRequest(Notifications.Messages);
 
                 return Ok(presence);
             }
@@ -39,6 +43,9 @@ namespace Api.Controllers
                 presence.ParticipantId = participantId;
                 await _appService.UpdatePresence(id, presence);
 
+                if (Notifications.HasNotification)
+                    return BadRequest(Notifications.Messages);
+
                 return Ok(presence);
             }
             catch (Exception ex)
@@ -54,6 +61,9 @@ namespace Api.Controllers
             {
                 await _appService.UpdatePayment(id, participantId, payment);
 
+                if (Notifications.HasNotification)
+                    return BadRequest(Notifications.Messages);
+
                 return Ok(payment);
             }
             catch (Exception ex)
@@ -68,6 +78,9 @@ namespace Api.Controllers
             try
             {
                 await _appService.CancelPresence(id, participantId, wasPaid);
+
+                if (Notifications.HasNotification)
+                    return BadRequest(Notifications.Messages);
 
                 return NoContent();
             }

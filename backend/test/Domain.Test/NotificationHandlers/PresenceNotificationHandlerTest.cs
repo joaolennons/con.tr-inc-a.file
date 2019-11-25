@@ -12,12 +12,14 @@ namespace Domain.Test.NotificationHandlers
     public class PresenceNotificationHandlerTest
     {
         private readonly Mock<IBarbecueRepository> _context;
+        private readonly Mock<INotificationHandler> _notifications;
         private readonly PresenceNotificationHandler _handler;
 
         public PresenceNotificationHandlerTest()
         {
             _context = new Mock<IBarbecueRepository>();
-            _handler = new PresenceNotificationHandler(_context.Object);
+            _notifications = new Mock<INotificationHandler>();
+            _handler = new PresenceNotificationHandler(_notifications.Object, _context.Object);
         }
 
         [Fact]

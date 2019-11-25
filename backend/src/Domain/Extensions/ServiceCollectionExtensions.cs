@@ -10,6 +10,7 @@ namespace System
     { 
         public static IServiceCollection AddDomainDependency(this IServiceCollection services, IConfiguration configuration)
             => services.AddMediatR(Assembly.GetAssembly(typeof(CreateNoReasonBarbecue)))
+            .AddScoped<INotificationHandler, NotificationHandler>()
             .AddWriteDependencies(configuration)
             .AddDrinkingValues(configuration);
 

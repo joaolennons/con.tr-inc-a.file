@@ -14,9 +14,12 @@ namespace Domain.NotificationHandlers
         INotificationHandler<PaymentUpdated>
     {
         private readonly IBarbecueRepository _context;
-        public PresenceNotificationHandler(IBarbecueRepository context)
+        private readonly INotificationHandler _notifications;
+
+        public PresenceNotificationHandler(INotificationHandler notifications, IBarbecueRepository context)
         {
             _context = context;
+            _notifications = notifications;
         }
         public async Task Handle(PresenceCanceled notification, CancellationToken cancellationToken)
             => await UpdateBarbecue(notification, PresenceChangedType.Canceled, notification.Paid);
@@ -30,7 +33,10 @@ namespace Domain.NotificationHandlers
                    .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
+            {
+                _notifications.AddNotification(AppConsts.BarbecueNotFound);
                 return;
+            }
 
             bbq.TotalAmount = bbq.TotalAmount - notification.OldValue + notification.Value;
 
@@ -46,7 +52,10 @@ namespace Domain.NotificationHandlers
                    .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
+            {
+                _notifications.AddNotification(AppConsts.BarbecueNotFound);
                 return;
+            }
 
             bbq.TotalRaised += notification.Paid ? notification.Value : -notification.Value;
             await _context.Commit();
@@ -58,7 +67,10 @@ namespace Domain.NotificationHandlers
                     .FirstOrDefaultAsync(o => o.Id == notification.BarbecueId);
 
             if (bbq == null)
+            {
+                _notifications.AddNotification(AppConsts.BarbecueNotFound);
                 return;
+            }
 
             bbq.TotalAmount += changeType == PresenceChangedType.Confirmed ? notification.Value : -notification.Value;
             bbq.TotalParticipants += changeType == PresenceChangedType.Confirmed ? 1 : -1;

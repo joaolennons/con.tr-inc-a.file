@@ -14,6 +14,7 @@ namespace Domain.Test.CommandHandlers
     {
         private readonly Mock<IMediator> _mediator;
         private readonly Mock<IPresenceRepository> _presences;
+        private readonly Mock<INotificationHandler> _notificationHandler;
         private readonly Mock<IBarbecueRepository> _barbecues;
         private readonly PresenceCommandHandler _handler;
 
@@ -22,8 +23,9 @@ namespace Domain.Test.CommandHandlers
             _mediator = new Mock<IMediator>();
             _presences = new Mock<IPresenceRepository>();
             _barbecues = new Mock<IBarbecueRepository>();
+            _notificationHandler = new Mock<INotificationHandler>();
 
-            _handler = new PresenceCommandHandler(_presences.Object, _barbecues.Object, _mediator.Object);
+            _handler = new PresenceCommandHandler(_notificationHandler.Object, _presences.Object, _barbecues.Object, _mediator.Object);
         }
 
         [Fact]
