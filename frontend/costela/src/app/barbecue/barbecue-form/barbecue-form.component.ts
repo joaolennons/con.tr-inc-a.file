@@ -4,6 +4,8 @@ import { Barbecue } from "../models/barbecue.model";
 import { BarbecueService } from "../barbecue.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Participant } from "../models/participant.model";
+import { Literals } from "./localization/barbecue-form-pt-br";
+import { DrinkingOption } from "./barbecue-form.consts";
 
 @Component({
   selector: "app-barbecue-form",
@@ -12,13 +14,15 @@ import { Participant } from "../models/participant.model";
   encapsulation: ViewEncapsulation.None
 })
 export class BarbecueFormComponent implements OnInit {
+  private _participants: Array<Participant> = [];
+
+  public readonly literals = Literals;
   public readonly: boolean;
-  public data: Array<Participant>;
+  public eligibleParticipants: Array<Participant>;
   public barbecue: Barbecue = new Barbecue();
 
   public savedAt = new Date();
   public barbecueForm: FormGroup;
-  public _participants: Array<Participant> = [];
 
   constructor(
     private service: BarbecueService,
@@ -36,7 +40,7 @@ export class BarbecueFormComponent implements OnInit {
     }
 
     this.service.getEligibleParticipants().subscribe(
-      people => (this.data = people),
+      people => (this.eligibleParticipants = people),
       error => console.error(error)
     );
 
@@ -54,7 +58,7 @@ export class BarbecueFormComponent implements OnInit {
           this._participants = [];
           this._clearFormArray(this.participants);
           bbq.participants.forEach(o => {
-            o.drinking = o.value === 20;
+            o.drinking = o.value === DrinkingOption.drinking;
             this._add(o);
             this.participants.push(this.fb.group({ participant: "" }));
           });
@@ -85,7 +89,7 @@ export class BarbecueFormComponent implements OnInit {
       const updated = participants.find(o => o.id === participant.id);
       participant.paid = updated.paid;
       participant.value = updated.value;
-      participant.drinking = updated.value === 20;
+      participant.drinking = updated.value === DrinkingOption.drinking;
     });
   }
 
@@ -109,13 +113,15 @@ export class BarbecueFormComponent implements OnInit {
     }
   }
 
-  get participants() {
+  public get participants() {
     return this.barbecueForm.get("participants") as FormArray;
   }
 
   public filterData() {
-    return this.data
-      ? this.data.filter(o => !this._participants.find(w => w.id === o.id))
+    return this.eligibleParticipants
+      ? this.eligibleParticipants.filter(
+          o => !this._participants.find(w => w.id === o.id)
+        )
       : [];
   }
 
@@ -181,6 +187,14 @@ export class BarbecueFormComponent implements OnInit {
       );
   }
 
+  public exists(index) {
+    return this._participants[index];
+  }
+
+  public enableEditing() {
+    this.readonly = false;
+  }
+
   private _add(participant: any) {
     this._participants.push(participant);
   }
@@ -194,13 +208,4 @@ export class BarbecueFormComponent implements OnInit {
       formArray.removeAt(0);
     }
   };
-
-  public exists(index) {
-    return this._participants[index];
-  }
-
-  public enableEditing() {
-    console.log(this._participants);
-    this.readonly = false;
-  }
 }

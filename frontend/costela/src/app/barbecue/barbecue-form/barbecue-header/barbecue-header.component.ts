@@ -1,10 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewEncapsulation
+} from "@angular/core";
 import { Barbecue } from "../../models/barbecue.model";
 
 @Component({
   selector: "app-barbecue-header",
   templateUrl: "./barbecue-header.component.html",
-  styleUrls: ["./barbecue-header.component.less"]
+  styleUrls: ["./barbecue-header.component.less"],
+  encapsulation: ViewEncapsulation.None
 })
 export class BarbecueHeaderComponent implements OnInit {
   @Input() barbecue: Barbecue;

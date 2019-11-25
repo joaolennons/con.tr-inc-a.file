@@ -1,7 +1,7 @@
 <div class="wrapper">
-  <span class='btn' (click)="goToNewBbq()">
+  <span class="btn" (click)="goToBbqForm()">
     <img src="../../../assets/new-bbq.svg" />
-    Novo churras
+    {{ literals?.new }}
   </span>
   <div class="main-card">
     <po-table [p-columns]="columns" [p-items]="events" [p-actions]="actions">

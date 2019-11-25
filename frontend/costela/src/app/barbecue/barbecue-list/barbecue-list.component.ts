@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { BarbecueService } from "../barbecue.service";
 import { Barbecue } from "../models/barbecue.model";
 import { PoTableColumn, PoTableAction } from "@portinari/portinari-ui";
+import { Literals } from "./localization/barbecue-list-pt-br";
+import { Columns, BbqFormRoute } from "./barbecue-list.conts";
 
 @Component({
   selector: "app-barbecue-list",
@@ -11,39 +13,24 @@ import { PoTableColumn, PoTableAction } from "@portinari/portinari-ui";
   encapsulation: ViewEncapsulation.None
 })
 export class BarbecueListComponent implements OnInit {
+  public readonly literals = Literals;
+  public readonly columns: Array<PoTableColumn> = Columns;
+  public readonly actions: Array<PoTableAction> = [
+    { action: this.goToBbqForm.bind(this), label: this.literals.details }
+  ];
+
   public events: Array<Barbecue>;
+
   constructor(public router: Router, private _service: BarbecueService) {}
 
   ngOnInit() {
-    this._service.getAllBarbecues().subscribe(
+    this._service.getAll().subscribe(
       bbqs => (this.events = bbqs),
       ex => console.error(ex)
     );
   }
 
-  public goToNewBbq(bbq) {
-    this.router.navigate(["new-bbq", bbq ? bbq.id : ""]);
+  public goToBbqForm(bbq) {
+    this.router.navigate([BbqFormRoute, bbq ? bbq.id : ""]);
   }
-
-  public readonly columns: Array<PoTableColumn> = [
-    { property: "date", label: "Quando?", type: "date" },
-    { property: "description", label: "A troco de quê?" },
-    { property: "totalParticipants", label: "Quantos vão?" },
-    {
-      property: "totalAmount",
-      label: "Valor a ser arrecadado",
-      type: "currency",
-      format: "BRL"
-    },
-    {
-      property: "totalRaised",
-      label: "Quanto já foi pago?",
-      type: "currency",
-      format: "BRL"
-    }
-  ];
-
-  public readonly actions: Array<PoTableAction> = [
-    { action: this.goToNewBbq.bind(this), label: "Detalhes do churras" }
-  ];
 }

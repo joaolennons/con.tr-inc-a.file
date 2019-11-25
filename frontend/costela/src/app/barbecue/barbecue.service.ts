@@ -9,16 +9,20 @@ import { Api } from "../app-consts";
 export class BarbecueService {
   constructor(private _http: HttpClient) {}
 
-  public getAllBarbecues(): Observable<Array<Barbecue>> {
+  public getAll(): Observable<Array<Barbecue>> {
     return this._http.get<Array<Barbecue>>(Api.barbecue);
   }
 
-  public put(barbecue: Barbecue): Observable<Barbecue> {
-    return this._http.put<Barbecue>(`${Api.barbecue}/${barbecue.id}`, barbecue);
+  public get(id: string): Observable<Barbecue> {
+    return this._http.get<Barbecue>(`${Api.barbecue}/${id}`);
   }
 
   public post(barbecue: Barbecue): Observable<Barbecue> {
     return this._http.post<Barbecue>(Api.barbecue, barbecue);
+  }
+
+  public put(barbecue: Barbecue): Observable<Barbecue> {
+    return this._http.put<Barbecue>(`${Api.barbecue}/${barbecue.id}`, barbecue);
   }
 
   public delete(barbecueId: string): Observable<any> {
@@ -61,9 +65,5 @@ export class BarbecueService {
 
   public getEligibleParticipants(): Observable<Array<Participant>> {
     return this._http.get<Array<Participant>>(Api.people);
-  }
-
-  public get(id: string): Observable<Barbecue> {
-    return this._http.get<Barbecue>(`${Api.barbecue}/${id}`);
   }
 }

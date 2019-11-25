@@ -1,36 +1,48 @@
-import { Component, OnInit, Output, EventEmitter, Input, forwardRef, ChangeDetectorRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  Input,
+  forwardRef,
+  ChangeDetectorRef
+} from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
-  selector: 'app-participant',
-  templateUrl: './participant.component.html',
-  styleUrls: ['./participant.component.less'],
+  selector: "app-participant",
+  templateUrl: "./participant.component.html",
+  styleUrls: ["./participant.component.less"],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => ParticipantComponent),
+      useExisting: forwardRef(() => ParticipantComponent)
     }
   ]
 })
 export class ParticipantComponent implements ControlValueAccessor {
-
   private level: string;
   private disabled: boolean;
   private onChange: Function;
   private onTouched: Function;
   @Input() readonly: boolean;
   @Input() value: any;
-  @Output() changeDrinkingOption = new EventEmitter<any>();
-  @Output() focus = new EventEmitter<any>();
   @Input() drinking: boolean;
   @Input() paymentStatus: boolean;
+  @Input() data: Array<any>[];
+  @Output() add = new EventEmitter<any>();
+  @Output() remove = new EventEmitter<any>();
+  @Output() paid = new EventEmitter<any>();
+  @Output() changeDrinkingOption = new EventEmitter<any>();
+  @Output() focus = new EventEmitter<any>();
 
   constructor(private cd: ChangeDetectorRef) {
-    this.onChange = (_: any) => { };
-    this.onTouched = () => { };
+    this.onChange = (_: any) => {};
+    this.onTouched = () => {};
     this.disabled = false;
   }
+
+  ngOnInit() {}
 
   public ngAfterViewInit() {
     this.cd.detectChanges();
@@ -46,28 +58,20 @@ export class ParticipantComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
-  writeValue(obj: any): void {
+  public writeValue(obj: any): void {
     this.level = obj;
   }
 
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
-  }
-
-  @Input() public data: Array<any>[];
-  @Output() add = new EventEmitter<any>();
-  @Output() remove = new EventEmitter<any>();
-  @Output() paid = new EventEmitter<any>();
-
-  ngOnInit() {
   }
 
   public emitAdd($event) {
@@ -78,15 +82,15 @@ export class ParticipantComponent implements ControlValueAccessor {
     this.remove.emit($event);
   }
 
-  emitChange($event) {
+  public emitChange($event) {
     this.changeDrinkingOption.emit($event);
   }
 
-  emitFocus() {
+  public emitFocus() {
     this.focus.emit();
   }
 
-  emitSetPayment($event) {
-    this.paid.emit($event)
+  public emitSetPayment($event) {
+    this.paid.emit($event);
   }
 }

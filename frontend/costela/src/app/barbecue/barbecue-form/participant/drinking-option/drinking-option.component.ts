@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Literals } from "./localization/drinking-option-pt-br";
 
 @Component({
   selector: "app-drinking-option",
@@ -11,6 +12,8 @@ export class DrinkingOptionComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() change = new EventEmitter<any>();
   @Input() selected: boolean;
+  public readonly literals = Literals;
+
   constructor() {}
 
   ngOnInit() {}

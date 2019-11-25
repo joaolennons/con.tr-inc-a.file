@@ -6,18 +6,18 @@
   />
   <div class="state p-success p-on">
     <label>{{ on | currency: "BRL" }}</label>
-    <small style="margin-left: 5px;"> | com bebida</small>
+    <small style="margin-left: 5px;"> | {{ literals.drinking }}</small>
   </div>
   <div class="state p-danger p-off">
     <label>{{ off | currency: "BRL" }}</label>
-    <small style="margin-left: 5px;"> | sem bebida</small>
+    <small style="margin-left: 5px;"> | {{ literals.notDrinking }}</small>
   </div>
 </div>
 
 <div class="pretty p-default p-curve" *ngIf="readonly">
   <input type="checkbox" disabled="disabled" />
   <div class="state p-success">
-    <label>dinheiros</label>
+    <label>{{ literals.money }}</label>
     <small style="margin-left: 5px;"> | R$</small>
   </div>
 </div>
