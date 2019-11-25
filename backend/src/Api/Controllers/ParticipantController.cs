@@ -1,6 +1,5 @@
 ﻿using Api.ViewModels;
-using Domain;
-using MediatR;
+using AppServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -11,10 +10,10 @@ namespace Api.Controllers
     [ApiController]
     public class ParticipantController : ControllerBase
     {
-        private readonly IMediator _dispatcher;
-        public ParticipantController(IMediator dispatcher)
+        private readonly IParticipantAppService _appService;
+        public ParticipantController(IParticipantAppService appService)
         {
-            _dispatcher = dispatcher;
+            _appService = appService;
         }
 
         [HttpPost]
@@ -22,13 +21,7 @@ namespace Api.Controllers
         {
             try
             {
-                await _dispatcher.Send(
-                    EventOrganizer
-                        .ConfirmPresence
-                        .Of(presence.ParticipantId)
-                        .On(id)
-                        .PayingBy(presence.Drinking ? Drinking.Yes : Drinking.No)
-                        .Please());
+                await _appService.ConfirmPresence(id, presence);
 
                 return Ok(presence);
             }
@@ -44,14 +37,7 @@ namespace Api.Controllers
             try
             {
                 presence.ParticipantId = participantId;
-                await _dispatcher.Send(
-                    EventOrganizer
-                        .UpdatePresence
-                        .Of(presence.ParticipantId)
-                        .On(id)
-                        .PayingBy(presence.Drinking ? Drinking.Yes : Drinking.No)
-                        .IsPaid(presence.Paid)
-                        .Please());
+                await _appService.UpdatePresence(id, presence);
 
                 return Ok(presence);
             }
@@ -66,13 +52,7 @@ namespace Api.Controllers
         {
             try
             {
-                await _dispatcher.Send(
-                    EventOrganizer
-                        .UpdatePayment
-                        .Of(participantId)
-                        .On(id)
-                        .SetPaid(payment.Paid)
-                        .Please());
+                await _appService.UpdatePayment(id, participantId, payment);
 
                 return Ok(payment);
             }
@@ -87,13 +67,7 @@ namespace Api.Controllers
         {
             try
             {
-                await _dispatcher.Send(
-                    EventOrganizer
-                        .CancelPresence
-                        .Of(participantId)
-                        .On(id)
-                        .WasPaid(wasPaid)
-                        .Please());
+                await _appService.CancelPresence(id, participantId, wasPaid);
 
                 return NoContent();
             }

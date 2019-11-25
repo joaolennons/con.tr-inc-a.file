@@ -25,7 +25,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddResponseCompression();
-            services.AddDomainDependency(Configuration)
+            services.AddAppServiceDependencies(Configuration)
                 .AddReadDependencies();
             services.AddAutoMapper(typeof(DomainToPocoProfile), typeof(ProjectionProfile));
             services.AddSwaggerGen(c =>

@@ -1,6 +1,5 @@
 ﻿using Api.ViewModels;
-using Domain;
-using MediatR;
+using AppServices;
 using Microsoft.AspNetCore.Mvc;
 using Read;
 using System;
@@ -13,12 +12,12 @@ namespace Api.Controllers
     [ApiController]
     public class BarbecueController : ControllerBase
     {
-        private readonly IMediator _dispatcher;
+        private readonly IBarbecueAppService _appService;
         private readonly IBarbecueReadonlyRepository _read;
-        public BarbecueController(IMediator dispatcher, IBarbecueReadonlyRepository read)
+        public BarbecueController(IBarbecueAppService appService, IBarbecueReadonlyRepository read)
         {
             _read = read;
-            _dispatcher = dispatcher;
+            _appService = appService;
         }
 
         [HttpPost]
@@ -26,13 +25,7 @@ namespace Api.Controllers
         {
             try
             {
-                bbq.Id = await _dispatcher.Send(
-                    EventOrganizer
-                        .ScheduleNewBarbecue
-                        .Named(bbq.Description)
-                        .At(bbq.Date)
-                        .WithObservation(bbq.Observation)
-                        .Please());
+                bbq.Id = await _appService.CreateBarbecue(bbq);
 
                 return Ok(bbq);
             }
@@ -48,13 +41,7 @@ namespace Api.Controllers
             try
             {
                 bbq.Id = id;
-                bbq.UpdateDate = await _dispatcher.Send(
-                    EventOrganizer
-                        .UpdateBarbecue(bbq.Id)
-                        .Named(bbq.Description)
-                        .At(bbq.Date)
-                        .WithObservation(bbq.Observation)
-                        .Please());
+                bbq.UpdateDate = await _appService.UpdateBarbecue(bbq);
 
                 return Ok(bbq);
             }
@@ -69,10 +56,7 @@ namespace Api.Controllers
         {
             try
             {
-                await _dispatcher.Send(
-                    EventOrganizer
-                    .CancelBarbecue(id)
-                    .Please());
+                await _appService.DeleteBarbecue(id);
 
                 return NoContent();
             }
