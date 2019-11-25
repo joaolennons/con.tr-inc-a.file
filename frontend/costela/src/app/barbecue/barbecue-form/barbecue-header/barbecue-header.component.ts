@@ -14,7 +14,7 @@ import { Barbecue } from "../../models/barbecue.model";
   styleUrls: ["./barbecue-header.component.less"],
   encapsulation: ViewEncapsulation.None
 })
-export class BarbecueHeaderComponent implements OnInit {
+export class BarbecueHeaderComponent {
   @Input() barbecue: Barbecue;
   @Output() change = new EventEmitter<any>();
   public description: string;
@@ -22,12 +22,6 @@ export class BarbecueHeaderComponent implements OnInit {
   public today = new Date();
 
   constructor() {}
-
-  ngOnInit() {
-    if (this.barbecue.date) {
-      this.date = this.barbecue.date;
-    }
-  }
 
   setDate() {
     if (this.date) {
