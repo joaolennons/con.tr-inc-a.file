@@ -21,7 +21,7 @@ A arquitetura também simula um *CQRS* ainda que com a mesma base para escrita e
 
 ### Usabilidade
 
-**Importante**: o frontend não está reponsivo (ainda!) então deve ser executado em um monitor com resolução md, lg ou xl.
+**Importante**: o *frontend* não está reponsivo (ainda!) então deve ser executado em um monitor com resolução md, lg ou xl.
 O foco na usabilidade da aplicação é salvar automaticamente cada interação do usuário com o sistema;
 
 A primeira tela mostra a listagem dos *churras*. Para adicionar um novo clique em **novo churras**
@@ -44,7 +44,7 @@ Ao sair do campo, o *churras* é salvo automáticamente e uma mensagem é exibid
 
 Agora podemos dizer quem vai: 
 
-![alt text](how-to/5.adicionar-pessoas)
+![alt text](how-to/5.adicionar-pessoas.png)
 ![alt text](how-to/6.muitas-pessoas.png)
 
 E dizer quem já pagou
