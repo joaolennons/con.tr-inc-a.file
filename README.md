@@ -16,3 +16,5 @@ As *ApplicationServices*  concretas criam um *command* através de *builders* e 
 A arquitetura também simula um *CQRS* ainda que com a mesma base para escrita e leitura. 
 - O assembly *Write* possui repositórios que fazem a escrita do dados no banco através de repositórios usando o *EntityFramework Core*.
 - O assembly *Read* possui repositórios de somente leitura que se conecta via ADO utilizando o *Dapper* . As *queries*  são executadas e os resultados são projetados em dtos.
+
+![alt text](Arquitetura.png)
